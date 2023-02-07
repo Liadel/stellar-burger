@@ -1,0 +1,6 @@
+.link {
+  height: 56px;
+  display: inline-flex;
+  border-radius: 40px;
+  cursor: pointer;
+}

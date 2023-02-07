@@ -1,0 +1,8 @@
+.tabs {
+  display: flex;
+  align-items: stretch;
+}
+
+.tabs > div {
+  flex-basis: 33.33%
+}

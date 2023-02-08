@@ -1,3 +1,30 @@
 .wrapper {
-  width: 50%
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  /* max-width: 630px; */
+  height: 100%;
+}
+
+.scroll {
+  flex: 1 1 auto;
+  margin: 0;
+  padding: 0;
+  overflow-y: scroll;
+  list-style-type: none;
+}
+
+.scroll >:last-child {
+  padding-bottom: 0;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  max-width: 580px;
+}
+.price {
+  display: inline-flex;
+  align-items: center;
 }

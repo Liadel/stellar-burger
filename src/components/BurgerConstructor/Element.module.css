@@ -1,0 +1,9 @@
+.element {
+  position: relative;
+  display: flex
+}
+.icon {
+  position: absolute;
+  left: 0;
+  top: calc(50% - 18px);
+}

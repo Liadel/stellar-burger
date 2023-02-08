@@ -2,22 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Tabs from './Tabs'
-import styles from './BurgerIngredients.module.css'
 import IngredientSection from './IngredientSection'
 import {INGREDIENT_TYPES} from '../../constants'
 
+import styles from './BurgerIngredients.module.css'
+import { IngredientPropTypes } from '../../types/IngredientPropTypes'
+
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string,
-    type: PropTypes.oneOf(['bun', 'sauce', 'main']),
-    proteins: PropTypes.number,
-    fat: PropTypes.number,
-    carbohydrates: PropTypes.number,
-    calories: PropTypes.number,
-    name: PropTypes.string,
-    price: PropTypes.number,
-    image: PropTypes.string,
-  })).isRequired
+  data: PropTypes.arrayOf(PropTypes.shape(IngredientPropTypes)).isRequired
 }
 
 export default function BurgerIngredients({data}){
@@ -34,11 +26,6 @@ export default function BurgerIngredients({data}){
                 ingredients={data.filter(({type}) => type === sectionType)}
               />)
           })}
-
-
-          {/* {data.map((ingredient) => {
-            return <IngredientPreview key={ingredient.id} {...ingredient} />
-          })} */}
       </div>
     </section>
     )

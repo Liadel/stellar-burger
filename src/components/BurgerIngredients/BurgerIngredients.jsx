@@ -7,7 +7,17 @@ import IngredientSection from './IngredientSection'
 import {INGREDIENT_TYPES} from '../../constants'
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.array
+  data: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string,
+    type: PropTypes.oneOf(['bun', 'sauce', 'main']),
+    proteins: PropTypes.number,
+    fat: PropTypes.number,
+    carbohydrates: PropTypes.number,
+    calories: PropTypes.number,
+    name: PropTypes.string,
+    price: PropTypes.number,
+    image: PropTypes.string,
+  })).isRequired
 }
 
 export default function BurgerIngredients({data}){

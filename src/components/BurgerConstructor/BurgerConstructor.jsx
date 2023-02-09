@@ -9,7 +9,7 @@ import { IngredientPropTypes } from '../../types/IngredientPropTypes'
 import styles from './BurgerConstructor.module.css'
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape(IngredientPropTypes)).isRequired
+  data: PropTypes.arrayOf(PropTypes.shape(IngredientPropTypes))
 }
 
 export default function BurgerConstructor({data}){
@@ -60,7 +60,7 @@ export default function BurgerConstructor({data}){
           <span className='p-2'>610</span> 
           <CurrencyIcon type='primary' />
         </p>
-        <Button onClick={() => setModalOpen(true)}>Оформить заказ</Button>
+        <Button htmlType="button" type="primary" size="medium" onClick={() => setModalOpen(true)}>Оформить заказ</Button>
       </footer>
     </section>
   )

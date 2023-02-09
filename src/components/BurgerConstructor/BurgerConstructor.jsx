@@ -1,8 +1,9 @@
-import React from 'react'
+import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { ConstructorElement, CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import DraggableElement from './DraggableElement/DraggableElement'
+import OrderDetails from '../OrderDetails/OrderDetails'
 import { IngredientPropTypes } from '../../types/IngredientPropTypes'
 
 import styles from './BurgerConstructor.module.css'
@@ -12,12 +13,15 @@ BurgerConstructor.propTypes = {
 }
 
 export default function BurgerConstructor({data}){
+  const [modalIsOpen, setModalOpen] = useState(false)
+  
   const firstElement = data[0]
   const lastElement = data[data.length -1]
   const elements = data.slice(1, -1)
  
   return (
     <section className={classnames(styles.wrapper, 'pt-25 pl-5 pr-5 pb-5')}>
+      {modalIsOpen && <OrderDetails onClose={() => setModalOpen(false)}/>}
       <DraggableElement draggable={false}>
         <ConstructorElement 
           type='top'
@@ -56,7 +60,7 @@ export default function BurgerConstructor({data}){
           <span className='p-2'>610</span> 
           <CurrencyIcon type='primary' />
         </p>
-        <Button>Оформить заказ</Button>
+        <Button onClick={() => setModalOpen(true)}>Оформить заказ</Button>
       </footer>
     </section>
   )

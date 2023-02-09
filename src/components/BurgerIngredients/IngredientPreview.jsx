@@ -12,9 +12,9 @@ IngredientPreview.propTypes = {
   count: PropTypes.number
 }
 
-export default function IngredientPreview({_id, name, price, image, count}){
+export default function IngredientPreview({_id, name, price, image, count, chooseIngredient}){
   return (
-    <li className={classnames(styles.wrapper, 'pt-4 pb-4 pl-3 pr-3')} key={_id}>
+    <li className={classnames(styles.wrapper, 'pt-4 pb-4 pl-3 pr-3')} onClick={() => chooseIngredient(_id)}>
       <figure className={styles.card} >
         {count && <Counter count={count} />}
         <img src={image} alt={name} />

@@ -1,0 +1,19 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center
+}
+
+.wrapper figure{
+  margin: 0;
+}
+
+.details {
+  display: flex;
+  white-space: nowrap;
+}
+
+.prop {
+  min-width: 112px
+}

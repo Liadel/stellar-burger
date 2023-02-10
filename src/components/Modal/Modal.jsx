@@ -11,7 +11,7 @@ const modalRoot = document.getElementById('react-modals');
 export default function Modal( { children, title='', onClose }){
   return createPortal(
     (
-      <ModalOverlay onClose={onClose}>
+      <div className={styles.wrapper}>
         <div className={classnames(styles.modal, 'p-10')}>
           <header className={styles.header}>
             <h2 className='text text_type_main-large pr-5'>{title}</h2>
@@ -21,7 +21,8 @@ export default function Modal( { children, title='', onClose }){
           </header>
           {children}
         </div>
-      </ModalOverlay>
+        <ModalOverlay onClose={onClose} />
+      </div>
     ), 
     modalRoot
   );

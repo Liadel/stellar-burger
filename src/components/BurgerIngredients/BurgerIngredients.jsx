@@ -14,7 +14,7 @@ BurgerIngredients.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape(IngredientPropTypes))
 }
 
-export default function BurgerIngredients({data}){
+export default function BurgerIngredients({data = []}){
   const [modalIsOpen, setModalOpen] = useState(false)
   const [currentIngredient, setCurrentIngredient] = useState(null)
 

@@ -7,10 +7,10 @@ import {INGREDIENT_TYPES} from '../../constants'
 import styles from './IngredientSection.module.css'
 
 IngredientSection.propTypes = {
-  type: PropTypes.oneOf(['bun', 'sauce', 'main']).isRequired,
+  type: PropTypes.oneOf(['bun', 'sauce', 'main']),
   chooseIngredient: PropTypes.func,
   ingredients: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired
+    _id: PropTypes.string
   }))
 }
 

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useRef} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Tabs from './Tabs'
@@ -18,12 +18,21 @@ BurgerIngredients.propTypes = {
 export default function BurgerIngredients({data = []}){
   const [modalIsOpen, setModalOpen] = useState(false)
   const [currentIngredient, setCurrentIngredient] = useState(null)
+  const refs = {
+    bun: useRef(),
+    sauce: useRef(),
+    main: useRef()
+  }
 
   function handleClick(id){
     const ingredient = data.find(el => el._id === id)
     setCurrentIngredient(ingredient)
     setModalOpen(true)
   }
+
+  function handleTabClick(refName) {
+    refs[refName].current.scrollIntoView({ behavior: 'smooth' })
+  } 
 
   return (
     <section className={classnames(styles.wrapper, 'pt-10 pl-5 pr-5 pb-5' )} >
@@ -34,11 +43,12 @@ export default function BurgerIngredients({data = []}){
       )}
       
       <h1 className='text text_type_main-large mb-5 '>Соберите бургер</h1>
-      <Tabs />
+      <Tabs handleTabClick={handleTabClick} />
       <div className={styles.ingredients}>
           {Object.keys(INGREDIENT_TYPES).map(sectionType => {
             return (
               <IngredientSection 
+                ref={refs[sectionType]}
                 chooseIngredient={handleClick}
                 key={sectionType} 
                 type={sectionType}

@@ -1,22 +1,16 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
-
-import Modal from '../Modal/Modal'
 import { IngredientPropTypes } from '../../types/IngredientPropTypes'
 
 import styles from './IngredientDetails.module.css'
 
 IngredientDetails.propTypes = {
   ingredient: IngredientPropTypes,
-  onClose: PropTypes.func
 }
 
-
-export default function IngredientDetails({ingredient, onClose}){
+export default function IngredientDetails({ingredient}){
   const {name, image_large, proteins, fat, carbohydrates, calories } = ingredient
   return (
-    <Modal title='Детали ингредиента' onClose={onClose}>
       <div className={classnames(styles.wrapper, 'pb-5', 'pl-15', 'pr-15')}>
         <figure className='pb-8'>
           <img src={image_large} alt={name} />
@@ -41,6 +35,5 @@ export default function IngredientDetails({ingredient, onClose}){
           </div>
         </section>
       </div>
-    </Modal>
   )
 }

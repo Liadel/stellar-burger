@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Tabs from './Tabs'
+import Modal from '../Modal/Modal'
 import IngredientSection from './IngredientSection'
 import IngredientDetails from '../IngredientDetails/IngredientDetails'
 
@@ -26,7 +27,11 @@ export default function BurgerIngredients({data = []}){
 
   return (
     <section className={classnames(styles.wrapper, 'pt-10 pl-5 pr-5 pb-5' )} >
-      {modalIsOpen && currentIngredient && <IngredientDetails onClose={() => setModalOpen(false)} ingredient={currentIngredient}/> }
+      {modalIsOpen && currentIngredient && (
+        <Modal title='Детали ингредиента' onClose={() => setModalOpen(false)}>
+          <IngredientDetails ingredient={currentIngredient}/>
+        </Modal>
+      )}
       
       <h1 className='text text_type_main-large mb-5 '>Соберите бургер</h1>
       <Tabs />

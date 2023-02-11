@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import classnames from 'classnames';
 import AppHeader from '../AppHeader/AppHeader'
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 
 import {API_URL} from '../../constants'
-
 import styles from './App.module.css'
 
 function App() {
@@ -16,17 +14,20 @@ function App() {
   })
   useEffect(() => {
     const getData = async () => {
-      setState({...state, loading: true});
-      const res = await fetch(API_URL);
-      const {data} = await res.json();
-      setState({ ...state, data: data, loading: false, error: false });
+      try {
+        setState({...state, loading: true});
+        const res = await fetch(API_URL);
+        if (!res.ok) {
+          throw new Error('Ответ сети был не ok.')
+        }
+        const {data} = await res.json();
+        setState({ ...state, data: data, loading: false});
+      } catch(e) {
+        setState({...state, error: e});
+      }    
     }
-  
-    try{
-      getData()
-    } catch(e) {
-      setState({...state, error: true});
-    }  
+    getData()
+
   }, [])
 
   return (
@@ -42,9 +43,12 @@ function App() {
       }
       {
         state.error && (
-          <p className={classnames(styles.error, 'text text_type_main-large p-30')}>
-            Что-то пошло не так, повторите попытку позже
-          </p>
+          <div className={styles.error}>
+            <p className='text text_type_main-large pt-30 pb-4'>
+              Что-то пошло не так, повторите попытку позже
+            </p>
+            <p className='text text_type_main-medium'>{state.error.message}</p>
+          </div>
         )
       }
       

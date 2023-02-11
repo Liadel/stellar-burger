@@ -1,8 +1,9 @@
-import React, {useState} from 'react'
+import React, {useState, useMemo} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { ConstructorElement, CurrencyIcon, Button} from '@ya.praktikum/react-developer-burger-ui-components'
 import DraggableElement from './DraggableElement/DraggableElement'
+import Modal from '../Modal/Modal'
 import OrderDetails from '../OrderDetails/OrderDetails'
 import { IngredientPropTypes } from '../../types/IngredientPropTypes'
 
@@ -14,25 +15,28 @@ BurgerConstructor.propTypes = {
 
 export default function BurgerConstructor({data}){
   const [modalIsOpen, setModalOpen] = useState(false)
-  
-  const firstElement = data[0]
-  const lastElement = data[data.length -1]
-  const elements = data.slice(1, -1)
+
+  const {ingredients, bun} = useMemo(() => {
+    return {
+      ingredients: data.filter(el => el.type !== "bun"),
+      bun: data.find(el => el.type === "bun")
+    }
+  },[data])
  
   return (
     <section className={classnames(styles.wrapper, 'pt-25 pl-5 pr-5 pb-5')}>
-      {modalIsOpen && <OrderDetails onClose={() => setModalOpen(false)}/>}
+      {modalIsOpen && <Modal onClose={() => setModalOpen(false)}><OrderDetails /></Modal>}
       <DraggableElement draggable={false}>
         <ConstructorElement 
           type='top'
-          text={firstElement.name}
-          price={firstElement.price}
-          thumbnail={firstElement.image}
+          text={`${bun.name} (верх)`}
+          price={bun.price}
+          thumbnail={bun.image}
           isLocked={true}
         />
       </DraggableElement>
       <ul className={styles.scroll}>
-        {elements.map((element) => {
+        {ingredients.map((element) => {
           const {_id, name, price, image} = element
           return (
           <DraggableElement key={_id}> 
@@ -48,9 +52,9 @@ export default function BurgerConstructor({data}){
       <DraggableElement draggable={false} extraClass={'pt-4'}>
         <ConstructorElement 
           type='bottom'
-          text={lastElement.name}
-          price={lastElement.price}
-          thumbnail={lastElement.image}
+          text={`${bun.name} (низ)`}
+          price={bun.price}
+          thumbnail={bun.image}
           isLocked={true}
         />
       </DraggableElement>

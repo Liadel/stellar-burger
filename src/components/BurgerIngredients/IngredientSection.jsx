@@ -1,11 +1,10 @@
-import React, {forwardRef} from 'react'
+import React, {forwardRef, memo} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import IngredientPreview from './IngredientPreview'
 import {INGREDIENT_TYPES} from '../../constants'
 
 import styles from './IngredientSection.module.css'
-
 
 
 // eslint-disable-next-line react/display-name
@@ -37,4 +36,4 @@ IngredientSection.propTypes = {
   }))
 }
 
-export default IngredientSection
+export default memo(IngredientSection)

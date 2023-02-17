@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {memo} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {CurrencyIcon, Counter} from '@ya.praktikum/react-developer-burger-ui-components'
@@ -12,7 +12,7 @@ IngredientPreview.propTypes = {
   count: PropTypes.number
 }
 
-export default function IngredientPreview({_id, name, price, image, count, chooseIngredient}){
+function IngredientPreview({_id, name, price, image, count, chooseIngredient}){
   return (
     <li className={classnames(styles.wrapper, 'pt-4 pb-4 pl-3 pr-3')} onClick={() => chooseIngredient(_id)}>
       <figure className={styles.card} >
@@ -27,4 +27,6 @@ export default function IngredientPreview({_id, name, price, image, count, choos
     </li>
   )
 } 
+
+export default memo(IngredientPreview)
 

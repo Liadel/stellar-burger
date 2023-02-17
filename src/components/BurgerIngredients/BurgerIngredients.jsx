@@ -1,10 +1,11 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef, useCallback, useContext} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Tabs from './Tabs'
 import Modal from '../Modal/Modal'
 import IngredientSection from './IngredientSection'
 import IngredientDetails from '../IngredientDetails/IngredientDetails'
+import {useIngredients} from '../IngredientsProvider/IngredientsProvider'
 
 import {INGREDIENT_TYPES} from '../../constants'
 
@@ -15,7 +16,7 @@ BurgerIngredients.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape(IngredientPropTypes))
 }
 
-export default function BurgerIngredients({data = []}){
+export default function BurgerIngredients(){
   const [modalIsOpen, setModalOpen] = useState(false)
   const [currentIngredient, setCurrentIngredient] = useState(null)
   const refs = {
@@ -23,12 +24,13 @@ export default function BurgerIngredients({data = []}){
     sauce: useRef(),
     main: useRef()
   }
-
-  function handleClick(id){
-    const ingredient = data.find(el => el._id === id)
+  const {ingredients = []} = useIngredients()
+  
+  const handleIngredientClick = useCallback((id) => {
+    const ingredient = ingredients?.find(el => el._id === id)
     setCurrentIngredient(ingredient)
     setModalOpen(true)
-  }
+  }, [])
 
   function handleTabClick(refName) {
     refs[refName].current.scrollIntoView({ behavior: 'smooth' })
@@ -49,10 +51,10 @@ export default function BurgerIngredients({data = []}){
             return (
               <IngredientSection 
                 ref={refs[sectionType]}
-                chooseIngredient={handleClick}
+                chooseIngredient={handleIngredientClick}
                 key={sectionType} 
                 type={sectionType}
-                ingredients={data.filter(({type}) => type === sectionType)}
+                ingredients={ingredients?.filter(({type}) => type === sectionType)}
               />)
           })}
       </div>

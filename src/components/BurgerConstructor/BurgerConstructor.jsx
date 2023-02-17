@@ -1,8 +1,6 @@
 import React, {useState, useCallback, useMemo} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { ConstructorElement} from '@ya.praktikum/react-developer-burger-ui-components'
-import DraggableElement from './DraggableElement/DraggableElement'
 import Modal from '../Modal/Modal'
 import OrderDetails from '../OrderDetails/OrderDetails'
 import {useIngredients} from '../IngredientsProvider/IngredientsProvider'

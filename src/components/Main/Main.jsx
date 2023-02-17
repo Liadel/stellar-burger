@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from 'react';
+import React from 'react';
 import AppHeader from '../AppHeader/AppHeader'
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
@@ -10,17 +10,14 @@ function Main() {
   const {loading, error} = useIngredients()
 
   return ( 
-    
       <div className={styles.wrapper}>
         <AppHeader />
         {
-          
           !loading && !error && (<main className={styles.main}>
               <BurgerIngredients />
               <BurgerConstructor />
-            </main>)
-          
-          }
+            </main>)  
+        }
         {
           error && (
             <div className={styles.error}>

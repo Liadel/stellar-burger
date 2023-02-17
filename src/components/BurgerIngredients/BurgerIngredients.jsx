@@ -1,4 +1,4 @@
-import React, {useState, useRef, useCallback, useContext} from 'react'
+import React, {useState, useRef, useCallback} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Tabs from './Tabs'

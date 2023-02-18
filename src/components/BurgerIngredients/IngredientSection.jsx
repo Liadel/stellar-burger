@@ -18,7 +18,7 @@ const IngredientSection = forwardRef(({type, ingredients, chooseIngredient}, ref
             <IngredientPreview 
               chooseIngredient={chooseIngredient}
               key={ingredient._id} 
-              {...ingredient} 
+              ingredient={ingredient} 
               count={type === 'bun' ? 1: null} 
             />
           )

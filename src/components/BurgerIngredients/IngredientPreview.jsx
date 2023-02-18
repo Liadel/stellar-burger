@@ -8,11 +8,13 @@ import styles from './IngredientPreview.module.css'
 
 
 IngredientPreview.propTypes = {
-  ...IngredientPropTypes,
-  count: PropTypes.number
+  ingredient: IngredientPropTypes,
+  count: PropTypes.number,
+  chooseIngredient: PropTypes.func,
 }
 
-function IngredientPreview({_id, name, price, image, count, chooseIngredient}){
+function IngredientPreview({ingredient, count, chooseIngredient}){
+  const {_id, name, price, image} = ingredient
   return (
     <li className={classnames(styles.wrapper, 'pt-4 pb-4 pl-3 pr-3')} onClick={() => chooseIngredient(_id)}>
       <figure className={styles.card} >

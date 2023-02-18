@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createPortal} from 'react-dom'
 import classnames from 'classnames';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -9,6 +9,15 @@ import styles from './Modal.module.css'
 const modalRoot = document.getElementById('react-modals');
 
 export default function Modal( { children, title='', onClose }){
+  useEffect(() => {
+    document.addEventListener('keydown', handleEsc)
+    return () => document.removeEventListener('keydown', handleEsc)
+  }, [])
+
+  const handleEsc = (e) => {
+    if (e.key === 'Escape') onClose()
+  }
+
   return createPortal(
     (
       <div className={styles.wrapper}>

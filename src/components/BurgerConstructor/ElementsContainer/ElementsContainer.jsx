@@ -22,10 +22,10 @@ const ElementsContainer = ({bun, ingredients}) => {
         />
       </DraggableElement>
       <ul className={styles.scroll}>
-        {ingredients.map((element) => {
+        {ingredients.map((element, i) => {
           const {_id, name, price, image} = element
           return (
-          <DraggableElement key={_id}> 
+          <DraggableElement key={`${_id + i}`}> 
             <ConstructorElement 
               text={name}
               price={price}
@@ -49,7 +49,7 @@ const ElementsContainer = ({bun, ingredients}) => {
 }
 
 ElementsContainer.propTypes = {
-  bun: IngredientPropTypes.isRequired,
+  bun: IngredientPropTypes,
   ingredients: PropTypes.arrayOf(IngredientPropTypes)
 }
 

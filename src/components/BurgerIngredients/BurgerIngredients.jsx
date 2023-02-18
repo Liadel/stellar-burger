@@ -1,20 +1,14 @@
 import React, {useState, useRef, useCallback} from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Tabs from './Tabs'
 import Modal from '../Modal/Modal'
 import IngredientSection from './IngredientSection'
 import IngredientDetails from '../IngredientDetails/IngredientDetails'
-import {useIngredients} from '../IngredientsProvider/IngredientsProvider'
+import {useIngredients} from '../../context/IngredientsProvider'
 
 import {INGREDIENT_TYPES} from '../../constants'
 
 import styles from './BurgerIngredients.module.css'
-import { IngredientPropTypes } from '../../types/IngredientPropTypes'
-
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape(IngredientPropTypes))
-}
 
 export default function BurgerIngredients(){
   const [modalIsOpen, setModalOpen] = useState(false)

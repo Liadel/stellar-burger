@@ -1,15 +1,10 @@
 import React from 'react'
 import classnames from 'classnames'
-import PropTypes from 'prop-types'
-import { useOrderData } from '../OrderDataProvider/OrderDataProvider'
+import { useOrderData } from '../../context/OrderDataProvider'
 
 import check from '../../images/check-image.svg'
 import styles from './OrderDetails.module.css'
 
-
-OrderDetails.propTypes = {
-  orderNumber: PropTypes.number.isRequired
-}
 
 export default function OrderDetails(){
   const {orderData} = useOrderData()

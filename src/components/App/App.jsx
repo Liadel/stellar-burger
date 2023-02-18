@@ -1,7 +1,7 @@
 import React from 'react';
 
-import IngredientsProvider from '../IngredientsProvider/IngredientsProvider';
-import OrderDataProvider from '../OrderDataProvider/OrderDataProvider';
+import IngredientsProvider from '../../context/IngredientsProvider';
+import OrderDataProvider from '../../context/OrderDataProvider';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import Main from '../Main/Main'
 

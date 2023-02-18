@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect  } from 'react'
 import PropTypes from 'prop-types'
-import {requestWrapper} from '../../utils/index'
-import {API_URL} from '../../constants'
+import {requestWrapper} from '../utils/index'
+import {API_URL} from '../constants'
 
 const initialContext = {
   ingredients: [],

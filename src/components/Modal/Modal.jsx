@@ -10,13 +10,13 @@ const modalRoot = document.getElementById('react-modals');
 
 export default function Modal( { children, title='', onClose }){
   useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') onClose()
+    }
+
     document.addEventListener('keydown', handleEsc)
     return () => document.removeEventListener('keydown', handleEsc)
   }, [])
-
-  const handleEsc = (e) => {
-    if (e.key === 'Escape') onClose()
-  }
 
   return createPortal(
     (

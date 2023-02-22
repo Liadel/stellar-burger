@@ -6,7 +6,7 @@ import { requestWrapper } from '../utils';
 export const sendOrder = createAsyncThunk(
   'order/sendOrder',
   async (payload) => {
-    const { data } = await requestWrapper({url: `${API_URL}/order`, payload});
+    const data = await requestWrapper({url: `${API_URL}/orders`, payload});
     return data;
   }
 );

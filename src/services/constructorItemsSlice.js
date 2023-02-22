@@ -6,8 +6,8 @@ const initialState = {
   bun: null
 }
 
-export const burgerConstructorSlice = createSlice({
-  name: 'burgerConstructor',
+export const constructorItemsSlice = createSlice({
+  name: 'constructorItems',
   initialState,
   reducers: {
     addIngredient: (state, { payload }) => {
@@ -24,6 +24,6 @@ export const burgerConstructorSlice = createSlice({
   
 })
 
-export const { addIngredient, removeIngredient } = burgerConstructorSlice.actions
+export const { addIngredient, removeIngredient } = constructorItemsSlice.actions
 
-export default burgerConstructorSlice
+export default constructorItemsSlice

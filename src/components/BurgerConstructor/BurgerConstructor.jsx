@@ -18,7 +18,7 @@ BurgerConstructor.propTypes = {
 
 export default function BurgerConstructor(){
   const dispatch = useDispatch()
-  const { ingredients, bun } = useSelector(state => state.burgerConstructor);
+  const { ingredients, bun } = useSelector(state => state.constructorItems);
   const { number, loading } = useSelector(state => state.order) 
 
   const handleOrderSend = async () => {

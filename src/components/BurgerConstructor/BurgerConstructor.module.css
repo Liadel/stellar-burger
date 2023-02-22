@@ -4,4 +4,8 @@
   width: 50%;
   /* max-width: 630px; */
   height: 100%;
+  align-items: stretch;
+}
+.constructor {
+  flex-grow: 1;
 }

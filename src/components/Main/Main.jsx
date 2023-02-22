@@ -1,13 +1,23 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import  {useDispatch, useSelector } from 'react-redux'
 import AppHeader from '../AppHeader/AppHeader'
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
-import {useIngredients} from '../../context/IngredientsProvider'
+import { fetchIngredients } from '../../services/ingredientsSlice'
 
 import styles from './Main.module.css'
 
 function Main() {
-  const {loading, error} = useIngredients()
+  const dispatch = useDispatch()
+  const { loading, error } = useSelector(state => state.ingredients);
+  
+  useEffect(() => {
+    try {
+      dispatch(fetchIngredients())
+    } catch(e){
+      console.log(e)
+    } 
+  }, [dispatch])
 
   return ( 
       <div className={styles.wrapper}>

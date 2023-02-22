@@ -1,102 +1,55 @@
-import React, {useState, useCallback, useMemo} from 'react'
+import React, { useCallback, useMemo } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Modal from '../Modal/Modal'
 import OrderDetails from '../OrderDetails/OrderDetails'
-import {useIngredients} from '../../context/IngredientsProvider'
-import { useOrderData } from '../../context/OrderDataProvider'
 import { IngredientPropTypes } from '../../types/IngredientPropTypes'
-import {API_URL} from '../../constants'
 
 import styles from './BurgerConstructor.module.css'
-import { requestWrapper, getRandomInt } from '../../utils'
 import ConstructorFooter from './ConstructorFooter/ConstructorFooter'
 import ElementsContainer from './ElementsContainer/ElementsContainer'
+
+import { sendOrder, clearOrder } from '../../services/orderSlice'
 
 BurgerConstructor.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape(IngredientPropTypes))
 }
 
 export default function BurgerConstructor(){
-  const [modalIsOpen, setModalOpen] = useState(false)
-  const [constructorItems, setConstructorItems] = useState({bun: null, ingredients: []})
-  
-  const {orderData, setOrderData} = useOrderData()
-  const {ingredients} = useIngredients()
-  
-  const {main, sauce, bun} = useMemo(() => {
-    return {
-      main: ingredients.filter(el => el.type === "main"),
-      sauce: ingredients.filter(el => el.type === "sauce"),
-      bun: ingredients.filter(el => el.type === "bun")
-    }
-  },[ingredients])
+  const dispatch = useDispatch()
+  const { ingredients, bun } = useSelector(state => state.burgerConstructor);
+  const { number, loading } = useSelector(state => state.order) 
 
-  // a bit of random before implementing dnd
-
-  const getRandomBurger = useCallback(() => {
-    if (!main.length) return null
-    const burger = RandomBurger({main, sauce, bun})
-    setConstructorItems({
-      bun: burger.bun,
-      ingredients: [...burger.sauce, ...burger.main]
-    })
-  }, [main, sauce, bun])
-
-  if (!constructorItems.ingredients.length) {
-    getRandomBurger()
-  }
-
-  const sendOrder = async () => {
+  const handleOrderSend = async () => {
     const ingredientsToSend = [
-      constructorItems.bun._id, 
-      ...constructorItems.ingredients.map(({_id}) => _id), 
-      constructorItems.bun._id
+      bun._id, 
+      ...ingredients.map(({_id}) => _id), 
+      bun._id
     ]
     try {
-      setOrderData({...orderData, loading: true});
-      const {name, order} = await requestWrapper({
-        url: `${API_URL}/orders`,
-        payload: {ingredients: ingredientsToSend}
-      });
-      
-      setOrderData({ ...orderData, number: order.number, name, loading: false});
+      dispatch(sendOrder({ingredients: ingredientsToSend}))  
     } catch(e) {
-      setOrderData({...orderData, error: e});
+      console.log(e)
     }    
   }
 
-  const handleOrderSend = () => {
-    sendOrder()
-    setModalOpen(true)
-  }
-  
-  if (!constructorItems.ingredients.length) return null
-
   return (
     <section className={classnames(styles.wrapper, 'pt-25 pl-5 pr-5 pb-5')}>
-      {modalIsOpen && !orderData.loading && <Modal onClose={() => setModalOpen(false)}><OrderDetails /></Modal>}
-      <ElementsContainer {...{...constructorItems}} />
-      
+      {number && <Modal onClose={() => dispatch(clearOrder())}><OrderDetails /></Modal>}
+      <div className={styles.constructor}>
+        {!!ingredients.length && <ElementsContainer bun={bun} {...{...ingredients}} />}
+      </div>
       <ConstructorFooter 
-        price={getPrice(constructorItems)}
-        disable={orderData.loading || !constructorItems.ingredients}
+        price={getPrice({bun, ingredients})}
+        disable={loading || !bun}
         handleClick={handleOrderSend}
       />
     </section>
   )
 }
 
-const RandomBurger = ({main, sauce, bun}) => {
-  const ingredientsAmount = getRandomInt(main?.length)
-  
-  return {
-    bun: bun[getRandomInt(bun?.length)],
-    sauce: [sauce[getRandomInt(sauce?.length)]],
-    main: [...Array(ingredientsAmount)].map(() => main[getRandomInt(main?.length)])
-  }
-}
-
 function getPrice({bun, ingredients}) {
-  return ingredients.reduce((acc, {price}) => acc + price, bun.price * 2)
+  let accumulator = bun ? bun.price*2 : 0
+  return ingredients.reduce((acc, {price}) => acc + price, accumulator)
 }

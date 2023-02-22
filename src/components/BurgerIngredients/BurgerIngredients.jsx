@@ -1,29 +1,31 @@
-import React, {useState, useRef, useCallback} from 'react'
+import React, { useRef, useCallback, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import classnames from 'classnames'
 import Tabs from './Tabs'
 import Modal from '../Modal/Modal'
 import IngredientSection from './IngredientSection'
 import IngredientDetails from '../IngredientDetails/IngredientDetails'
-import {useIngredients} from '../../context/IngredientsProvider'
+import { setIngredient, clearIngredient} from '../../services/currentIngredientSlice'
 
-import {INGREDIENT_TYPES} from '../../constants'
+import { INGREDIENT_TYPES } from '../../constants'
 
 import styles from './BurgerIngredients.module.css'
 
 export default function BurgerIngredients(){
-  const [modalIsOpen, setModalOpen] = useState(false)
-  const [currentIngredient, setCurrentIngredient] = useState(null)
+  const dispatch = useDispatch()
+  
   const refs = {
     bun: useRef(),
     sauce: useRef(),
     main: useRef()
   }
-  const {ingredients = []} = useIngredients()
+
+  const ingredients = useSelector((state) => state.ingredients.items)
+  const currentIngredient = useSelector((state) => state.currentIngredient.item)
   
   const handleIngredientClick = useCallback((id) => {
     const ingredient = ingredients?.find(el => el._id === id)
-    setCurrentIngredient(ingredient)
-    setModalOpen(true)
+    dispatch(setIngredient(ingredient))
   }, [])
 
   function handleTabClick(refName) {
@@ -32,8 +34,8 @@ export default function BurgerIngredients(){
 
   return (
     <section className={classnames(styles.wrapper, 'pt-10 pl-5 pr-5 pb-5' )} >
-      {modalIsOpen && currentIngredient && (
-        <Modal title='Детали ингредиента' onClose={() => setModalOpen(false)}>
+      {currentIngredient && (
+        <Modal title='Детали ингредиента' onClose={() => dispatch(clearIngredient())}>
           <IngredientDetails ingredient={currentIngredient}/>
         </Modal>
       )}

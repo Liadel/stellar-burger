@@ -1,18 +1,18 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import classnames from 'classnames'
-import { useOrderData } from '../../context/OrderDataProvider'
 
 import check from '../../images/check-image.svg'
 import styles from './OrderDetails.module.css'
 
 
 export default function OrderDetails(){
-  const {orderData} = useOrderData()
+  const { number } = useSelector((state) => state.order)
   
   return (
     <div className={classnames(styles.wrapper, 'pt-4 pb-20', 'pl-15', 'pr-15')}>
       <h2 className='text text_type_digits-large pb-8'>
-        {orderData?.number}
+        {number}
       </h2>
       <p className='text text_type_main-medium pb-15'>
         идентификатор заказа

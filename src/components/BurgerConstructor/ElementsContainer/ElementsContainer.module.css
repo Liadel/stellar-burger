@@ -4,6 +4,7 @@
   padding: 0;
   overflow-y: auto;
   list-style-type: none;
+  max-height: calc(100% - 212px);
 }
 
 .scroll >:last-child {

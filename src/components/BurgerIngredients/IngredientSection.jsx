@@ -9,6 +9,7 @@ import styles from './IngredientSection.module.css'
 
 // eslint-disable-next-line react/display-name
 const IngredientSection = forwardRef(({type, ingredients, chooseIngredient}, ref) => {
+  
   return (
     <>
       <h2 ref={ref} className='text text_type_main-medium pb-6'>{INGREDIENT_TYPES[type]}</h2>
@@ -19,7 +20,6 @@ const IngredientSection = forwardRef(({type, ingredients, chooseIngredient}, ref
               chooseIngredient={chooseIngredient}
               key={ingredient._id} 
               ingredient={ingredient} 
-              count={type === 'bun' ? 1: null} 
             />
           )
         })}

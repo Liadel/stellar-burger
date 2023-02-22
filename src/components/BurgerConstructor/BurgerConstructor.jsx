@@ -1,5 +1,7 @@
 import React, { useCallback, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useDrop } from 'react-dnd'
+import { nanoid } from '@reduxjs/toolkit'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Modal from '../Modal/Modal'
@@ -11,6 +13,7 @@ import ConstructorFooter from './ConstructorFooter/ConstructorFooter'
 import ElementsContainer from './ElementsContainer/ElementsContainer'
 
 import { sendOrder, clearOrder } from '../../services/orderSlice'
+import { addIngredient } from '../../services/constructorItemsSlice'
 
 BurgerConstructor.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape(IngredientPropTypes))
@@ -20,6 +23,19 @@ export default function BurgerConstructor(){
   const dispatch = useDispatch()
   const { ingredients, bun } = useSelector(state => state.constructorItems);
   const { number, loading } = useSelector(state => state.order) 
+
+  const [{isHover}, dropTargetRef] = useDrop({
+    accept: 'ingredient',
+    collect: (monitor) => ({
+      isHover: monitor.isOver()
+    }),
+    drop: (item) => {
+      dispatch(addIngredient({
+        ...item,
+        dragId: nanoid()
+      }))
+    }
+  })
 
   const handleOrderSend = async () => {
     const ingredientsToSend = [
@@ -37,9 +53,14 @@ export default function BurgerConstructor(){
   return (
     <section className={classnames(styles.wrapper, 'pt-25 pl-5 pr-5 pb-5')}>
       {number && <Modal onClose={() => dispatch(clearOrder())}><OrderDetails /></Modal>}
-      <div className={styles.constructor}>
-        {!!ingredients.length && <ElementsContainer bun={bun} {...{...ingredients}} />}
-      </div>
+      <section 
+        ref={dropTargetRef} 
+        className={classnames(styles.constructor, {
+          isHover: isHover ? styles.onHover : ''
+        })}
+      >
+        <ElementsContainer bun={bun} ingredients={ingredients} />
+      </section>
       <ConstructorFooter 
         price={getPrice({bun, ingredients})}
         disable={loading || !bun}

@@ -17,13 +17,16 @@ export const constructorItemsSlice = createSlice({
         state.ingredients = [...state.ingredients, payload]
       }
     },
-    removeIngredient: ({ingredients}, {payload: id}) => {
-      return ingredients.filter(ingredient => ingredient.id !== id)
+    removeIngredient: (state, {payload: id}) => {
+      state.ingredients = state.ingredients.filter(ingredient => ingredient._id !== id)
+    },
+    updateIngredients: (state, {payload}) => {
+      state.ingredients = payload
     }
   },
   
 })
 
-export const { addIngredient, removeIngredient } = constructorItemsSlice.actions
+export const { addIngredient, removeIngredient, updateIngredients } = constructorItemsSlice.actions
 
 export default constructorItemsSlice

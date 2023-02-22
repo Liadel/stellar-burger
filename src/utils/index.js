@@ -6,7 +6,7 @@ export const requestWrapper = async ({url, payload}) => {
       },
       body: JSON.stringify(payload)
     } : null
-  
+    console.log(settings)
     const res = await fetch(url, settings)
   
   if (!res.ok) {

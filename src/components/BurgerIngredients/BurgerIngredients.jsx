@@ -1,34 +1,58 @@
-import React, {useState, useRef} from 'react'
-import PropTypes from 'prop-types'
+import React, { useRef, useCallback, useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import classnames from 'classnames'
 import Tabs from './Tabs'
 import Modal from '../Modal/Modal'
 import IngredientSection from './IngredientSection'
 import IngredientDetails from '../IngredientDetails/IngredientDetails'
+import { setIngredient, clearIngredient} from '../../services/currentIngredientSlice'
 
-import {INGREDIENT_TYPES} from '../../constants'
+import { INGREDIENT_TYPES } from '../../constants'
 
 import styles from './BurgerIngredients.module.css'
-import { IngredientPropTypes } from '../../types/IngredientPropTypes'
 
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape(IngredientPropTypes))
-}
-
-export default function BurgerIngredients({data = []}){
-  const [modalIsOpen, setModalOpen] = useState(false)
-  const [currentIngredient, setCurrentIngredient] = useState(null)
+export default function BurgerIngredients(){
+  const dispatch = useDispatch()
+  const [currentTab, setTab] = useState('')
+  const viewport = useRef()
   const refs = {
     bun: useRef(),
     sauce: useRef(),
     main: useRef()
   }
+  const ingredients = useSelector((state) => state.ingredients.items)
+  const currentIngredient = useSelector((state) => state.currentIngredient.item)
 
-  function handleClick(id){
-    const ingredient = data.find(el => el._id === id)
-    setCurrentIngredient(ingredient)
-    setModalOpen(true)
-  }
+  useEffect(() => {
+    let visibleHeaders = {}
+    let observer;
+    if (refs.bun.current && refs.sauce.current && refs.main.current) {
+      const options = {
+        root: viewport.current,
+      }
+      
+      observer = new IntersectionObserver((entries) => {
+        entries.map(entry => {
+          visibleHeaders[entry.target.id] = entry.isIntersecting
+        })
+        for (const header in visibleHeaders) {
+          if(visibleHeaders[header]) {
+            setTab(header)
+            break;
+          }
+        }
+      }, options)
+      Object.keys(refs).map(key => {
+        observer.observe(refs[key].current)
+      })
+    }
+    return () => observer?.disconnect()
+  }, [...Object.values(refs)])
+
+  const handleIngredientClick = useCallback((id) => {
+    const ingredient = ingredients?.find(el => el._id === id)
+    dispatch(setIngredient(ingredient))
+  }, [ingredients])
 
   function handleTabClick(refName) {
     refs[refName].current.scrollIntoView({ behavior: 'smooth' })
@@ -36,23 +60,23 @@ export default function BurgerIngredients({data = []}){
 
   return (
     <section className={classnames(styles.wrapper, 'pt-10 pl-5 pr-5 pb-5' )} >
-      {modalIsOpen && currentIngredient && (
-        <Modal title='Детали ингредиента' onClose={() => setModalOpen(false)}>
+      {currentIngredient && (
+        <Modal title='Детали ингредиента' onClose={() => dispatch(clearIngredient())}>
           <IngredientDetails ingredient={currentIngredient}/>
         </Modal>
       )}
       
       <h1 className='text text_type_main-large mb-5 '>Соберите бургер</h1>
-      <Tabs handleTabClick={handleTabClick} />
-      <div className={styles.ingredients}>
+      <Tabs handleTabClick={handleTabClick} currentTab={currentTab} />
+      <div className={styles.ingredients} ref={viewport}>
           {Object.keys(INGREDIENT_TYPES).map(sectionType => {
             return (
               <IngredientSection 
                 ref={refs[sectionType]}
-                chooseIngredient={handleClick}
+                chooseIngredient={handleIngredientClick}
                 key={sectionType} 
                 type={sectionType}
-                ingredients={data.filter(({type}) => type === sectionType)}
+                ingredients={ingredients?.filter(({type}) => type === sectionType)}
               />)
           })}
       </div>

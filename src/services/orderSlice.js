@@ -6,7 +6,7 @@ import { requestWrapper } from '../utils';
 export const sendOrder = createAsyncThunk(
   'order/sendOrder',
   async (payload) => {
-    const data = await requestWrapper({url: `${API_URL}/orders`, payload});
+    const data = await requestWrapper(`${API_URL}/orders`, { method: 'POST', payload});
     return data;
   }
 );
@@ -46,6 +46,6 @@ export const orderSlice = createSlice({
   },
 })
 
-export const {clearOrder, clearIngredient} = orderSlice.actions
+export const { clearOrder } = orderSlice.actions
 
 export default orderSlice

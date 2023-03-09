@@ -7,7 +7,7 @@ import { requestWrapper } from '../utils';
 export const fetchIngredients = createAsyncThunk(
   'ingredients/fetchIngredients',
   async () => {
-    const { data } = await requestWrapper({url: `${API_URL}/ingredients`});
+    const { data } = await requestWrapper(`${API_URL}/ingredients`);
     return data;
   }
 );

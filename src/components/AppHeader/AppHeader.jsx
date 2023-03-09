@@ -10,11 +10,11 @@ function AppHeader() {
     <header className={classnames(styles.header, 'p-4')}>
       <div className={styles.wrapper}>
         <nav className={styles.nav}>
-          <HeaderLink icon={<BurgerIcon type="primary" />} active>Конструктор</HeaderLink>
-          <HeaderLink icon={<ListIcon type="primary" />}>Лента заказов</HeaderLink>
+          <HeaderLink to={'/'} icon={<BurgerIcon type="primary" />} active>Конструктор</HeaderLink>
+          <HeaderLink to={'/list'} icon={<ListIcon type="primary" />}>Лента заказов</HeaderLink>
         </nav>
         <div className={styles.logo} ><Logo /></div>
-        <HeaderLink icon={<ProfileIcon type="primary" />}>Профиль</HeaderLink>
+        <HeaderLink  to={'/profile'} icon={<ProfileIcon type="primary" />}>Профиль</HeaderLink>
       </div>
     </header>
   );

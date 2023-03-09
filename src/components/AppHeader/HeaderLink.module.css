@@ -3,4 +3,9 @@
   display: inline-flex;
   border-radius: 40px;
   cursor: pointer;
+  text-decoration: none;
+}
+
+.isActive {
+  color: var(--text-primary-color)
 }

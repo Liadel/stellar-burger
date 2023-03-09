@@ -1,6 +1,10 @@
 .element {
   position: relative;
-  display: flex
+  display: flex;
+  user-select: none;
+}
+.draggable {
+  cursor: pointer;
 }
 .icon {
   position: absolute;

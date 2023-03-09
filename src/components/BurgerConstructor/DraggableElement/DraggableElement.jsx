@@ -77,7 +77,9 @@ function DraggableElement({
 
   return (
     <li 
-      className={classnames(styles.element, 'pl-8 pr-2 pb-4', extraClass)}
+      className={classnames(styles.element, 'pl-8 pr-2 pb-4', extraClass, {
+        [styles.draggable]: draggable
+      })}
       ref={draggable ? ref : null}
       style={{ opacity }}
       onDrop={(e) => e.preventDefault()}

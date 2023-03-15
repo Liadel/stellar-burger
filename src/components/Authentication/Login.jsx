@@ -9,9 +9,10 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import Form from '../Form/Form'
 import { selectUser } from '../../services/selectors'
+import { ROUTES } from '../../constants'
 
 Login.propTypes = {
-  onSubmit: PropTypes.func,
+  onSubmit: PropTypes.func.isRequired,
 }
 
 function Login({ onSubmit }) {
@@ -62,11 +63,11 @@ function Login({ onSubmit }) {
       <footer className="text text_type_main-small text_color_inactive pt-20">
         <p>
           {'Вы — новый пользователь? '}
-          <Link to={'/register'}>Зарегистрироваться</Link>
+          <Link to={ROUTES.signIn}>Зарегистрироваться</Link>
         </p>
         <p>
           {'Забыли пароль? '}
-          <Link to={'/forgot-password'}>Восстановить пароль</Link>
+          <Link to={ROUTES.forgotPassword}>Восстановить пароль</Link>
         </p>
       </footer>
     </Form>

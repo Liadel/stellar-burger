@@ -5,13 +5,15 @@ import { ForgotPassword } from '../components/Authentication'
 import { selectUser } from '../services/selectors'
 import { forgotPassword } from '../services/userSlice'
 
+import { ROUTES } from '../constants'
+
 function ForgotPasswordPage() {
   const { forgotPasswordEmailSend } = useSelector(selectUser)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   if (forgotPasswordEmailSend) {
-    navigate('/reset-password', { state: { from: '/forgot-password' } })
+    navigate(ROUTES.resetPassword, { state: { from: ROUTES.forgotPassword } })
   }
 
   const onSubmit = (payload) => {

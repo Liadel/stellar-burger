@@ -5,8 +5,8 @@ import cn from 'classnames'
 import styles from './Form.module.css'
 
 Form.propTypes = {
-  children: PropTypes.node,
-  onSubmit: PropTypes.func,
+  children: PropTypes.node.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   extraClass: PropTypes.string,
 }
 

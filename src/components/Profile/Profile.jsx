@@ -11,6 +11,7 @@ import {
 import Form from '../Form/Form'
 import styles from './Profile.module.css'
 import { selectUser } from '../../services/selectors'
+import { ROUTES } from '../../constants'
 
 const linkClasses = (isActive) =>
   cn('text text_type_main-medium', styles.link, {
@@ -19,8 +20,8 @@ const linkClasses = (isActive) =>
   })
 
 Profile.propTypes = {
-  onSubmit: PropTypes.func,
-  onLogOut: PropTypes.func,
+  onSubmit: PropTypes.func.isRequired,
+  onLogOut: PropTypes.func.isRequired,
 }
 
 function Profile({ onSubmit, onLogOut }) {
@@ -61,7 +62,7 @@ function Profile({ onSubmit, onLogOut }) {
       <section className={'pr-15'}>
         <nav className={styles.navigation}>
           <NavLink
-            to={'/profile'}
+            to={ROUTES.profile}
             className={({ isActive }) => linkClasses(isActive)}
           >
             Профиль

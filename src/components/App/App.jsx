@@ -22,11 +22,11 @@ import {
   ResetPasswordPage,
 } from '../../pages'
 
-import OrderDetails from '../OrderDetails/OrderDetails'
 import IngredientDetails from '../IngredientDetails/IngredientDetails'
 
 import { getUser } from '../../services/userSlice'
 import { fetchIngredients } from '../../services/ingredientsSlice'
+import { ROUTES } from '../../constants'
 
 import styles from './App.module.css'
 
@@ -35,7 +35,10 @@ function App() {
 
   useEffect(() => {
     try {
-      dispatch(getUser())
+      if (localStorage.getItem('accessToken')) {
+        dispatch(getUser())
+      }
+
       dispatch(fetchIngredients())
     } catch (e) {
       console.log(e)
@@ -50,15 +53,18 @@ function App() {
     const handleModalClose = () => {
       navigate(-1)
     }
+    const handlePageClose = () => {
+      navigate(ROUTES.home)
+    }
 
     return (
       <>
         <AppHeader />
         <div className={styles.wrapper}>
           <Routes location={background || location}>
-            <Route path="/" element={<HomePage />} />
+            <Route path={ROUTES.home} element={<HomePage />} />
             <Route
-              path="/login"
+              path={ROUTES.logIn}
               element={
                 <ProtectedRoute anonymousOnly>
                   <LoginPage />
@@ -66,7 +72,7 @@ function App() {
               }
             />
             <Route
-              path="/profile"
+              path={ROUTES.profile}
               element={
                 <ProtectedRoute>
                   <ProfilePage />
@@ -74,7 +80,7 @@ function App() {
               }
             />
             <Route
-              path="/register"
+              path={ROUTES.signIn}
               element={
                 <ProtectedRoute anonymousOnly>
                   <RegistrationPage />
@@ -82,11 +88,15 @@ function App() {
               }
             />
             <Route
-              path="/ingredients/:ingredientId"
-              element={<IngredientDetails />}
+              path={ROUTES.ingredientDetails}
+              element={
+                <Modal onClose={handlePageClose} title="Детали ингредиента">
+                  <IngredientDetails />
+                </Modal>
+              }
             />
             <Route
-              path="/forgot-password"
+              path={ROUTES.forgotPassword}
               element={
                 <ProtectedRoute anonymousOnly>
                   <ForgotPasswordPage />
@@ -94,7 +104,7 @@ function App() {
               }
             />
             <Route
-              path="/reset-password"
+              path={ROUTES.resetPassword}
               element={
                 <ProtectedRoute anonymousOnly>
                   <ResetPasswordPage />
@@ -106,21 +116,11 @@ function App() {
           {background && (
             <Routes>
               <Route
-                path="/ingredients/:ingredientId"
+                path={ROUTES.ingredientDetails}
                 element={
-                  <Modal onClose={handleModalClose}>
+                  <Modal onClose={handleModalClose} title="Детали ингредиента">
                     <IngredientDetails />
                   </Modal>
-                }
-              />
-              <Route
-                path="/profile/orders/:orderNumber"
-                element={
-                  <ProtectedRoute>
-                    <Modal onClose={handleModalClose}>
-                      <OrderDetails />
-                    </Modal>
-                  </ProtectedRoute>
                 }
               />
             </Routes>

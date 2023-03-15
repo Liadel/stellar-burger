@@ -21,6 +21,7 @@ import {
   selectConstructorItems,
   selectUser,
 } from '../../services/selectors'
+import { ROUTES } from '../../constants'
 
 BurgerConstructor.propTypes = {
   data: PropTypes.arrayOf(PropTypes.shape(IngredientPropTypes)),
@@ -50,7 +51,7 @@ export default function BurgerConstructor() {
 
   const handleOrderSend = async () => {
     if (!isLoggedIn) {
-      navigate('/login')
+      navigate(ROUTES.logIn)
     }
     const ingredientsToSend = [
       bun._id,

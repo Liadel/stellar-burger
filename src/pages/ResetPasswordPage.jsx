@@ -6,18 +6,20 @@ import { ResetPassword } from '../components/Authentication'
 import { selectUser } from '../services/selectors'
 import { resetPassword } from '../services/userSlice'
 
+import { ROUTES } from '../constants'
+
 function ResetPasswordPage() {
   const { resetPasswordSuccessful } = useSelector(selectUser)
   const dispatch = useDispatch()
   const location = useLocation()
 
-  const previousPathname = location.state?.from || '/'
+  const previousPathname = location.state?.from || ROUTES.home
 
-  if (previousPathname !== '/forgot-password') {
+  if (previousPathname !== ROUTES.forgotPassword) {
     return <Navigate to={previousPathname} replace />
   }
   if (resetPasswordSuccessful) {
-    return <Navigate to={'/login'} replace />
+    return <Navigate to={ROUTES.logIn} replace />
   }
 
   const onSubmit = (payload) => {

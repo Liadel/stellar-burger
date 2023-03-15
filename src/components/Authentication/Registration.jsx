@@ -11,10 +11,11 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import Form from '../Form/Form'
 import { selectUser } from '../../services/selectors'
+import { ROUTES } from '../../constants'
 
 Registration.propTypes = {
-  onSubmit: PropTypes.func,
-  onChange: PropTypes.func,
+  onSubmit: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
 }
 
 function Registration({ onSubmit }) {
@@ -71,7 +72,7 @@ function Registration({ onSubmit }) {
       </Button>
       <footer className="text text_type_main-small text_color_inactive mt-20">
         {'Уже зарегистрированы? '}
-        <Link to={'/login'}>Войти</Link>
+        <Link to={ROUTES.logIn}>Войти</Link>
       </footer>
     </Form>
   )

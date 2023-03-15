@@ -8,9 +8,10 @@ import {
 import Form from '../Form/Form'
 import { useSelector } from 'react-redux'
 import { selectUser } from '../../services/selectors'
+import { ROUTES } from '../../constants'
 
 ForgotPassword.propTypes = {
-  onSubmit: PropTypes.func,
+  onSubmit: PropTypes.func.isRequired,
 }
 
 function ForgotPassword({ onSubmit }) {
@@ -52,7 +53,7 @@ function ForgotPassword({ onSubmit }) {
       </Button>
       <footer className="text text_type_main-small text_color_inactive mt-20">
         {'Вспомнили пароль? '}
-        <Link to={'/login'}>Войти</Link>
+        <Link to={ROUTES.logIn}>Войти</Link>
       </footer>
     </Form>
   )

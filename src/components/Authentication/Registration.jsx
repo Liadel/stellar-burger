@@ -10,34 +10,64 @@ import {
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import Form from '../Form/Form'
+import { selectUser } from '../../services/selectors'
 
 Registration.propTypes = {
   onSubmit: PropTypes.func,
   onChange: PropTypes.func,
 }
 
-function Registration({ onSubmit, onChange }) {
-  const { name, email } = useSelector((state) => state.user)
-  const { password, setPassword } = useState('')
+function Registration({ onSubmit }) {
+  const { loading, error } = useSelector(selectUser)
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+  })
+
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setFormData({
+      ...formData,
+      [name]: value,
+    })
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    onSubmit(formData)
+  }
+
   return (
-    <Form onSubmit={onSubmit} onChange={onChange}>
+    <Form onSubmit={handleSubmit}>
       <h1 className="text text_type_main-medium pb-6">Регистрация</h1>
-      <Input placeholder={'Имя'} type={'text'} name={'name'} value={name} />
+      <Input
+        placeholder={'Имя'}
+        type={'text'}
+        name={'name'}
+        value={formData.name}
+        onChange={handleChange}
+      />
       <EmailInput
         extraClass="mt-6"
         placeholder="E-mail"
         name={'email'}
-        value={email}
+        value={formData.email}
+        onChange={handleChange}
       />
       <PasswordInput
         extraClass="mt-6"
         placeholder="Пароль"
         name={'password'}
-        value={password}
-        onChange={setPassword}
+        value={formData.password}
+        onChange={handleChange}
       />
-      <Button htmlType="submit" extraClass="mt-6">
-        Войти
+      {error && (
+        <p className="text text_type_main-small p-2">{error.message}</p>
+      )}
+      <Button htmlType="submit" extraClass="mt-6" disabled={loading}>
+        Зарегистрироваться
       </Button>
       <footer className="text text_type_main-small text_color_inactive mt-20">
         {'Уже зарегистрированы? '}

@@ -1,19 +1,61 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import {
   EmailInput,
   PasswordInput,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import Form from '../Form/Form'
+import { selectUser } from '../../services/selectors'
 
-function Login() {
+Login.propTypes = {
+  onSubmit: PropTypes.func,
+}
+
+function Login({ onSubmit }) {
+  const { loading, error } = useSelector(selectUser)
+
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  })
+
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setFormData({
+      ...formData,
+      [name]: value,
+    })
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    onSubmit(formData)
+  }
+
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <h1 className="text text_type_main-medium pb-6">Войти</h1>
-      <EmailInput placeholder="Имя" />
-      <PasswordInput extraClass="mt-6" placeholder="Имя" />
-      <Button htmlType="submit" extraClass="mt-6">
+      <EmailInput
+        name={'email'}
+        value={formData.email}
+        placeholder="E-mail"
+        onChange={handleChange}
+      />
+      <PasswordInput
+        name={'password'}
+        value={formData.password}
+        extraClass="mt-6"
+        placeholder="Пароль"
+        onChange={handleChange}
+        error={false}
+      />
+      {error && (
+        <p className="text text_type_main-small p-2">{error.message}</p>
+      )}
+      <Button htmlType="submit" extraClass="mt-6" disabled={loading}>
         Войти
       </Button>
 

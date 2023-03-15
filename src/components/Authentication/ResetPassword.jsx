@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import {
   Input,
@@ -7,16 +8,56 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 
 import Form from '../Form/Form'
+import { useSelector } from 'react-redux'
+import { selectUser } from '../../services/selectors'
 
-function ResetPassword() {
+ResetPassword.propTypes = {
+  onSubmit: PropTypes.func,
+}
+
+function ResetPassword({ onSubmit }) {
+  const { loading, error } = useSelector(selectUser)
+  const [formData, setFormData] = useState({
+    password: '',
+    token: '',
+  })
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData({
+      ...formData,
+      [name]: value,
+    })
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    onSubmit(formData)
+  }
+
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <h1 className="text text_type_main-medium pb-6">Восстановление пароля</h1>
 
-      <PasswordInput placeholder="Укажите e-mail" />
-      <Input extraClass="mt-6" placeholder="Введите код из письма" />
+      <PasswordInput
+        name="password"
+        value={formData.password}
+        onChange={handleChange}
+        placeholder="Введите новый пароль"
+      />
+      <Input
+        name="token"
+        value={Form.dataToken}
+        onChange={handleChange}
+        placeholder="Введите код из письма"
+        extraClass="mt-6"
+      />
 
-      <Button htmlType="submit" extraClass="mt-6">
+      {error && (
+        <p className="text text_type_main-small p-2">{error.message}</p>
+      )}
+
+      <Button htmlType="submit" extraClass="mt-6" disabled={loading}>
         Сохранить
       </Button>
       <footer className="text text_type_main-small text_color_inactive mt-20">

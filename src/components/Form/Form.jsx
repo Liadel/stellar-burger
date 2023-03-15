@@ -12,10 +12,7 @@ Form.propTypes = {
 
 function Form({ children, onSubmit, extraClass }) {
   return (
-    <form
-      className={cn(styles.wrapper, extraClass)}
-      onSubmit={() => onSubmit()}
-    >
+    <form className={cn(styles.wrapper, extraClass)} onSubmit={onSubmit}>
       {children}
     </form>
   )

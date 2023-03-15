@@ -1,8 +1,17 @@
 import React from 'react'
-import { Registration } from '../components/Authentication'
 
-function RegisterPage() {
-  return <Registration />
+import { useDispatch } from 'react-redux'
+import { Registration } from '../components/Authentication'
+import { signIn } from '../services/userSlice'
+
+function RegistrationPage() {
+  const dispatch = useDispatch()
+
+  const onFormSubmit = (payload) => {
+    dispatch(signIn(payload))
+  }
+
+  return <Registration onSubmit={onFormSubmit} />
 }
 
-export default RegisterPage
+export default RegistrationPage

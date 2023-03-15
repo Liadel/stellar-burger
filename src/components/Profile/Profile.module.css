@@ -25,6 +25,13 @@
 .active {
   color: var(--text-primary-color)
 }
+.form {
+  max-width: 480px;
+}
 .actions {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  padding-top: 24px;
 
 }

@@ -16,3 +16,7 @@
 .name {
   height: 3em;
 }
+.link {
+  text-decoration: none;
+  color: var(--text-primary-color)
+}

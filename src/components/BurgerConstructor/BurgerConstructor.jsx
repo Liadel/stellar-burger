@@ -1,4 +1,5 @@
-import React, { useCallback, useMemo } from 'react'
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useDrop } from 'react-dnd'
 import { nanoid } from '@reduxjs/toolkit'
@@ -15,54 +16,71 @@ import ElementsContainer from './ElementsContainer/ElementsContainer'
 import { sendOrder, clearOrder } from '../../services/orderSlice'
 import { addIngredient } from '../../services/constructorItemsSlice'
 
+import {
+  selectOrder,
+  selectConstructorItems,
+  selectUser,
+} from '../../services/selectors'
+
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape(IngredientPropTypes))
+  data: PropTypes.arrayOf(PropTypes.shape(IngredientPropTypes)),
 }
 
-export default function BurgerConstructor(){
+export default function BurgerConstructor() {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { ingredients, bun } = useSelector(state => state.constructorItems);
-  const { number, loading } = useSelector(state => state.order) 
+  const { ingredients, bun } = useSelector(selectConstructorItems)
+  const { number, loading } = useSelector(selectOrder)
+  const { isLoggedIn } = useSelector(selectUser)
 
-  const [{isHover}, dropTargetRef] = useDrop({
+  const [{ isHover }, dropTargetRef] = useDrop({
     accept: 'ingredient',
     collect: (monitor) => ({
-      isHover: monitor.isOver()
+      isHover: monitor.isOver(),
     }),
     drop: (item) => {
-      dispatch(addIngredient({
-        ...item,
-        dragId: nanoid()
-      }))
-    }
+      dispatch(
+        addIngredient({
+          ...item,
+          dragId: nanoid(),
+        })
+      )
+    },
   })
 
   const handleOrderSend = async () => {
+    if (!isLoggedIn) {
+      navigate('/login')
+    }
     const ingredientsToSend = [
-      bun._id, 
-      ...ingredients.map(({_id}) => _id), 
-      bun._id
+      bun._id,
+      ...ingredients.map(({ _id }) => _id),
+      bun._id,
     ]
     try {
-      dispatch(sendOrder({ingredients: ingredientsToSend}))  
-    } catch(e) {
+      dispatch(sendOrder({ ingredients: ingredientsToSend }))
+    } catch (e) {
       console.log(e)
-    }    
+    }
   }
 
   return (
     <section className={classnames(styles.wrapper, 'pt-25 pl-5 pr-5 pb-5')}>
-      {number && <Modal onClose={() => dispatch(clearOrder())}><OrderDetails /></Modal>}
-      <section 
-        ref={dropTargetRef} 
+      {number && (
+        <Modal onClose={() => dispatch(clearOrder())}>
+          <OrderDetails />
+        </Modal>
+      )}
+      <section
+        ref={dropTargetRef}
         className={classnames(styles.constructor, {
-          isHover: isHover ? styles.onHover : ''
+          isHover: isHover ? styles.onHover : '',
         })}
       >
         <ElementsContainer bun={bun} ingredients={ingredients} />
       </section>
-      <ConstructorFooter 
-        price={getPrice({bun, ingredients})}
+      <ConstructorFooter
+        price={getPrice({ bun, ingredients })}
         disable={loading || !bun}
         handleClick={handleOrderSend}
       />
@@ -70,7 +88,7 @@ export default function BurgerConstructor(){
   )
 }
 
-function getPrice({bun, ingredients}) {
-  let accumulator = bun ? bun.price*2 : 0
-  return ingredients.reduce((acc, {price}) => acc + price, accumulator)
+function getPrice({ bun, ingredients }) {
+  let accumulator = bun ? bun.price * 2 : 0
+  return ingredients.reduce((acc, { price }) => acc + price, accumulator)
 }

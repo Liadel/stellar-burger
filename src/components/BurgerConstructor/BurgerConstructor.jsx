@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useDrop } from 'react-dnd'
@@ -65,6 +65,11 @@ export default function BurgerConstructor() {
     }
   }
 
+  const totalPrice = useMemo(() => {
+    let accumulator = bun ? bun.price * 2 : 0
+    return ingredients.reduce((acc, { price }) => acc + price, accumulator)
+  }, [ingredients, bun])
+
   return (
     <section className={classnames(styles.wrapper, 'pt-25 pl-5 pr-5 pb-5')}>
       {number && (
@@ -81,15 +86,10 @@ export default function BurgerConstructor() {
         <ElementsContainer bun={bun} ingredients={ingredients} />
       </section>
       <ConstructorFooter
-        price={getPrice({ bun, ingredients })}
+        price={totalPrice}
         disable={loading || !bun}
         handleClick={handleOrderSend}
       />
     </section>
   )
-}
-
-function getPrice({ bun, ingredients }) {
-  let accumulator = bun ? bun.price * 2 : 0
-  return ingredients.reduce((acc, { price }) => acc + price, accumulator)
 }

@@ -1,26 +1,16 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients'
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor'
-import { fetchIngredients } from '../../services/ingredientsSlice'
 
 import { selectIngredients } from '../../services/selectors'
 
 import styles from './Main.module.css'
 
 function Main() {
-  const dispatch = useDispatch()
   const { loading, error } = useSelector(selectIngredients)
-
-  useEffect(() => {
-    try {
-      dispatch(fetchIngredients())
-    } catch (e) {
-      console.log(e)
-    }
-  }, [dispatch])
 
   return (
     <>

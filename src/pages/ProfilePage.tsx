@@ -1,17 +1,17 @@
-import React from 'react'
+import React, {FC} from 'react'
 import { useDispatch } from 'react-redux'
 
-import { updateUser, logOut } from '../services/userSlice'
+import { updateUser, logOut, UpdateUserPayload } from '../services/userSlice'
 import Profile from '../components/Profile/Profile'
 
-function ProfilePage() {
-  const dispatch = useDispatch()
+const ProfilePage: FC = () =>  {
+  const dispatch: any = useDispatch()
 
-  const onFormSubmit = (payload) => {
+  const onFormSubmit = (payload: UpdateUserPayload): void => {
     dispatch(updateUser(payload))
   }
 
-  const onLogOut = (e) => {
+  const onLogOut = (e: Event): void => {
     e.preventDefault()
     dispatch(logOut({ token: localStorage.getItem('refreshToken') }))
   }

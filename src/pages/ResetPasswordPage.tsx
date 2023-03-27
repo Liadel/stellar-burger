@@ -4,13 +4,14 @@ import { Navigate, useLocation } from 'react-router-dom'
 
 import { ResetPassword } from '../components/Authentication'
 import { selectUser } from '../services/selectors'
-import { resetPassword } from '../services/userSlice'
+import { resetPassword, ResetPasswordPayload } from '../services/userSlice'
+import { RootState} from '../services/store'
 
 import { ROUTES } from '../constants'
 
 function ResetPasswordPage() {
-  const { resetPasswordSuccessful } = useSelector(selectUser)
-  const dispatch = useDispatch()
+  const { resetPasswordSuccessful } = useSelector((state: RootState) => selectUser(state))
+  const dispatch: any = useDispatch()
   const location = useLocation()
 
   const previousPathname = location.state?.from || ROUTES.home
@@ -22,7 +23,7 @@ function ResetPasswordPage() {
     return <Navigate to={ROUTES.logIn} replace />
   }
 
-  const onSubmit = (payload) => {
+  const onSubmit = (payload: ResetPasswordPayload): void => {
     dispatch(resetPassword(payload))
   }
 

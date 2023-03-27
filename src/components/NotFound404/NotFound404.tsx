@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { FC } from 'react'
 
 import styles from './NotFound404.module.css'
 
-function NotFound404() {
+const NotFound404: FC = () => {
   return (
     <section className={styles.wrapper}>
       <h1 className="text text_type_digits-large ">404</h1>

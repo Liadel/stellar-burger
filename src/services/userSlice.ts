@@ -1,5 +1,5 @@
 
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
+import {createSlice, createAsyncThunk, SerializedError} from '@reduxjs/toolkit'
 import { 
   API_URL, 
   AUTH_REGISTER,
@@ -11,17 +11,28 @@ import {
 } from '../constants';
 import { requestWrapper, setTokens, clearTokens } from '../utils';
 
+export type SignInPayload = {
+  name: string,
+  email: string,
+  password: string,
+}
+
 export const signIn = createAsyncThunk(
   'user/signIn',
-  async (payload) => {
+  async (payload: SignInPayload) => {
     const data = await requestWrapper(`${API_URL}${AUTH_REGISTER}`, {method: 'POST', payload});
     return data;
   }
 );
 
+export type LogInPayload = {
+  email: string,
+  password: string
+}
+
 export const logIn = createAsyncThunk(
   'user/logIn',
-  async (payload) => {
+  async (payload: LogInPayload) => {
     const data = await requestWrapper(`${API_URL}${AUTH_LOGIN}`, {method: 'POST', payload});
     return data;
   }
@@ -29,15 +40,21 @@ export const logIn = createAsyncThunk(
 
 export const getUser = createAsyncThunk(
   'user/getUser',
-  async (payload) => {
-    const data = await requestWrapper(`${API_URL}${AUTH_USER}`, {method: 'GET', payload});
+  async () => {
+    const data = await requestWrapper(`${API_URL}${AUTH_USER}`, {method: 'GET'});
     return data;
   }
 );
 
+export type UpdateUserPayload = {
+  email?: string,
+  name?: string,
+  password?: string
+}
+
 export const updateUser = createAsyncThunk(
   'user/updateUser',
-  async (payload) => {
+  async (payload: UpdateUserPayload) => {
     const data = await requestWrapper(`${API_URL}${AUTH_USER}`, {method: 'PATCH', payload});
     return data;
   }
@@ -45,38 +62,61 @@ export const updateUser = createAsyncThunk(
 
 export const logOut = createAsyncThunk(
   'user/logOut',
-  async (payload) => {
+  async (payload: { token: string | null}) => {
     const data = await requestWrapper(`${API_URL}${AUTH_LOGOUT}`, {method: 'POST', payload});
     return data;
   }
 );
 
+export type ForgotPasswordPayload = {
+  email: string 
+}
+
 export const forgotPassword = createAsyncThunk(
   'user/forgotPassword',
-  async (payload) => {
+  async (payload: ForgotPasswordPayload) => {
     const data = await requestWrapper(`${API_URL}${PASSWORD_FORGOT}`, {method: 'POST', payload});
     return data;
   }
 );
 
+export type ResetPasswordPayload = {
+  password: string,
+  token: string
+}
+
 export const resetPassword = createAsyncThunk(
   'user/resetPassword',
-  async (payload) => {
+  async (payload: ResetPasswordPayload) => {
     const data = await requestWrapper(`${API_URL}${PASSWORD_RESET}`, {method: 'POST', payload});
     return data;
   }
 );
 
+type User = {
+  name: string | null,
+  email: string | null,
+}
 
-const initialState = {
+type UserState = {
+  user: User,
+  forgotPasswordEmailSend: boolean,
+  resetPasswordSuccessful: boolean,
+  isLoggedIn: boolean,
+  loading: boolean,
+  error: null | SerializedError
+}
+
+const initialState: UserState = {
   user: {
     name: null,
     email: null,
   },
   forgotPasswordEmailSend: false,
   resetPasswordSuccessful: false,
+  isLoggedIn: false,
   loading: false,
-  error: null
+  error: null 
 }
 
 export const userSlice = createSlice({

@@ -15,7 +15,6 @@ import { ROUTES } from '../../constants'
 
 Registration.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
 }
 
 function Registration({ onSubmit }) {

@@ -1,6 +1,12 @@
 import {API_URL, AUTH_TOKEN} from '../constants'
 
-export const createRequestHeaders = (headers = {}) => {
+interface RequestWrapperOptions {
+  method?: string;
+  headers?: HeadersInit;
+  payload?: Record<string, unknown>;
+}
+
+export const createRequestHeaders = (headers: HeadersInit = {}): HeadersInit => {
   const accessToken = localStorage.getItem('accessToken')
   
   return {
@@ -10,9 +16,9 @@ export const createRequestHeaders = (headers = {}) => {
   }
 }
 
-export const requestWrapper = async (url, options) => {
+export const requestWrapper = async (url: string, options: RequestWrapperOptions) => {
   const {method = 'GET', headers, payload} = options
-  const refreshToken = localStorage.getItem('refreshToken')
+  const refreshToken = localStorage.getItem('refreshToken') || ''
 
   const settings = {
       method,
@@ -48,7 +54,7 @@ export const requestWrapper = async (url, options) => {
   }
 }
 
-export const refreshAccessToken = async (token) => {
+export const refreshAccessToken = async (token: string ): Promise<{accessToken: string, refreshToken: string}> => {
   const response = await fetch(`${API_URL}${AUTH_TOKEN}`, {
     method: 'POST',
     headers: createRequestHeaders(),
@@ -65,16 +71,16 @@ export const refreshAccessToken = async (token) => {
   return { accessToken, refreshToken }
 }
 
-export const getRandomInt = (max) => {
+export const getRandomInt = (max: number): number => {
   return Math.floor(Math.random() * max);
 }
 
-export const setTokens = ({accessToken, refreshToken}) => {
+export const setTokens = ({accessToken, refreshToken}: { accessToken: string, refreshToken: string }) => {
   localStorage.setItem('accessToken', accessToken.split(' ')[1])
   localStorage.setItem('refreshToken', refreshToken)
 }
 
-export const clearTokens = () => {
+export const clearTokens = (): void => {
   localStorage.removeItem('accessToken')
   localStorage.removeItem('refreshToken')
 }

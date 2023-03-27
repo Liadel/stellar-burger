@@ -5,22 +5,22 @@ import classnames from 'classnames'
 import styles from './Tabs.module.css'
 
 Tabs.propTypes = {
-  currentTab: PropTypes.oneOf(['bun', 'sauce', 'main']),
-  handleTabClick: PropTypes.func,
+  currentTab: PropTypes.oneOf(['bun', 'sauce', 'main', '']),
+  handleTabClick: PropTypes.func.isRequired,
 }
 
-export default function Tabs({currentTab = 'bun', handleTabClick}){
+export default function Tabs({ currentTab = 'bun', handleTabClick }) {
   const [current, setCurrent] = React.useState(currentTab)
 
   useEffect(() => {
     setCurrent(currentTab)
   }, [currentTab])
 
-  function handleClick(value){
+  function handleClick(value) {
     handleTabClick(value)
     setCurrent(value)
   }
-  
+
   return (
     <div className={classnames(styles.tabs, 'pb-10')}>
       <Tab value="bun" active={current === 'bun'} onClick={handleClick}>

@@ -7,7 +7,7 @@ import { requestWrapper } from '../utils';
 export const fetchIngredients = createAsyncThunk(
   'ingredients/fetchIngredients',
   async () => {
-    const { data } = await requestWrapper({url: `${API_URL}/ingredients`});
+    const { data } = await requestWrapper(`${API_URL}/ingredients`, {method: 'GET'});
     return data;
   }
 );
@@ -34,8 +34,9 @@ export const ingredientsSlice = createSlice({
         state.loading = false
       })
       .addCase(fetchIngredients.rejected, (state, action) => {
+        console.log(action)
         state.loading = false
-        state.error = action.payload
+        state.error = action.error
         state.items = initialState.items
       });
   },

@@ -1,0 +1,8 @@
+.wrapper {
+  display: flex;
+  margin: 0 auto;
+  max-width: 1480px;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 88px)
+}

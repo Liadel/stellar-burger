@@ -1,18 +1,26 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-class ErrorBoundary extends React.Component {
-  constructor(props) {
+interface Props {
+  children?: React.ReactNode;
+}
+
+interface State {
+  hasError: boolean;
+  error: Error | null
+}
+
+class ErrorBoundary extends React.Component<Props, State> {
+  constructor(props: any) {
     super(props)
     this.state = { hasError: false, error: null }
   }
 
-  static getDerivedStateFromError(error) {
+  static getDerivedStateFromError(error: Error) {
     // Update state so the next render will show the fallback UI.
     return { hasError: true, error }
   }
 
-  componentDidCatch(error, errorInfo) {
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     // You can also log the error to an error reporting service
     console.log(error, errorInfo)
   }
@@ -25,10 +33,6 @@ class ErrorBoundary extends React.Component {
 
     return this.props.children
   }
-}
-
-ErrorBoundary.propTypes = {
-  children: PropTypes.node.isRequired,
 }
 
 export default ErrorBoundary

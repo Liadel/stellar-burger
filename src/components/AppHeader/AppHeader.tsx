@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {FC} from 'react'
 import classnames from 'classnames'
 import { Link } from 'react-router-dom'
 import {
@@ -12,7 +12,7 @@ import HeaderLink from './HeaderLink'
 import styles from './AppHeader.module.css'
 import { ROUTES } from '../../constants'
 
-function AppHeader() {
+const AppHeader: FC = () => {
   return (
     <header className={classnames(styles.header, 'p-4')}>
       <div className={styles.wrapper}>
@@ -20,7 +20,6 @@ function AppHeader() {
           <HeaderLink
             to={ROUTES.home}
             icon={<BurgerIcon type="primary" />}
-            active
           >
             Конструктор
           </HeaderLink>

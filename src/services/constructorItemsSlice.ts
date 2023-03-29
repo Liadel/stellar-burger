@@ -1,7 +1,15 @@
 
 import { createSlice } from '@reduxjs/toolkit'
+import { Ingredient } from '../types/IngredienTypes'
 
-const initialState = {
+type DraggableIngredient = Ingredient & {dragId: string}
+
+type constructorItemsState = {
+  ingredients: DraggableIngredient[],
+  bun: Ingredient | null
+}
+
+const initialState: constructorItemsState = {
   ingredients: [],
   bun: null
 }

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import cn from 'classnames'
 import {
+  Input,
   EmailInput,
   PasswordInput,
   Button,
@@ -13,26 +13,35 @@ import styles from './Profile.module.css'
 import { selectUser } from '../../services/selectors'
 import { ROUTES } from '../../constants'
 
-const linkClasses = (isActive) =>
+import { User } from '../../services/userSlice'
+
+const linkClasses = (isActive: boolean) =>
   cn('text text_type_main-medium', styles.link, {
     [styles.active]: isActive,
     ['text_color_inactive']: !isActive,
   })
 
-Profile.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  onLogOut: PropTypes.func.isRequired,
+
+
+type ProfileProps = {
+  onSubmit: (arg: FormData) => void
+  onLogOut: (e: React.SyntheticEvent) => void
 }
 
-function Profile({ onSubmit, onLogOut }) {
-  const { user } = useSelector(selectUser)
-  const initialFormData = { ...user, password: '' }
+type FormData = User & {
+  password: string
+}
 
+const Profile: React.FC<ProfileProps> = ({ onSubmit, onLogOut }) => {
+  const { user } = useSelector(selectUser)
+  const initialFormData: FormData = { ...user, password: '' }
+  const [ disabled, setDisabled ] = useState(true)
   const [formData, setFormData] = useState(initialFormData)
   const [hasChanged, setHasChanged] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
 
-  const handleChange = (event) => {
-    const { name, value } = event.target
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
     setFormData({
       ...formData,
       [name]: value,
@@ -40,7 +49,7 @@ function Profile({ onSubmit, onLogOut }) {
     setHasChanged(true)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
     onSubmit(formData)
     setHasChanged(false)
@@ -50,6 +59,14 @@ function Profile({ onSubmit, onLogOut }) {
     setFormData(initialFormData)
     setHasChanged(false)
   }
+
+  const onIconClick = () => {
+    setDisabled(false)
+    inputRef.current?.focus()
+  }
+  const onBlur = () => {
+    setDisabled(true);
+};
 
   useEffect(() => {
     const hasFormChanged =
@@ -92,13 +109,15 @@ function Profile({ onSubmit, onLogOut }) {
       </section>
 
       <Form extraClass={styles.form} onSubmit={handleSubmit}>
-        <EmailInput
+        <Input
+          ref={inputRef}
           placeholder="Имя"
           name="name"
           icon="EditIcon"
-          isIcon={true}
-          error={false}
           value={formData.name}
+          disabled={disabled}
+          onIconClick={onIconClick}
+          onBlur={onBlur}
           onChange={handleChange}
         />
         <EmailInput

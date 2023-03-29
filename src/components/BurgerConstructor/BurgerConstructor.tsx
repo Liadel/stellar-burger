@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useDrop } from 'react-dnd'
 import { nanoid } from '@reduxjs/toolkit'
-import PropTypes from 'prop-types'
+
 import classnames from 'classnames'
 import Modal from '../Modal/Modal'
 import OrderDetails from '../OrderDetails/OrderDetails'
-import { IngredientPropTypes } from '../../types/IngredientPropTypes'
+import { Ingredient } from '../../types/IngredienTypes'
 
 import styles from './BurgerConstructor.module.css'
 import ConstructorFooter from './ConstructorFooter/ConstructorFooter'
@@ -23,13 +23,9 @@ import {
 } from '../../services/selectors'
 import { ROUTES } from '../../constants'
 
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape(IngredientPropTypes)),
-}
-
-export default function BurgerConstructor() {
+ const BurgerConstructor: React.FC = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const dispatch: any = useDispatch()
   const { ingredients, bun } = useSelector(selectConstructorItems)
   const { number, loading } = useSelector(selectOrder)
   const { isLoggedIn } = useSelector(selectUser)
@@ -39,7 +35,7 @@ export default function BurgerConstructor() {
     collect: (monitor) => ({
       isHover: monitor.isOver(),
     }),
-    drop: (item) => {
+    drop: (item: Ingredient) => {
       dispatch(
         addIngredient({
           ...item,
@@ -53,7 +49,7 @@ export default function BurgerConstructor() {
     if (!isLoggedIn) {
       navigate(ROUTES.logIn)
     }
-    const ingredientsToSend = [
+    const ingredientsToSend = bun && [
       bun._id,
       ...ingredients.map(({ _id }) => _id),
       bun._id,
@@ -66,7 +62,7 @@ export default function BurgerConstructor() {
   }
 
   const totalPrice = useMemo(() => {
-    let accumulator = bun ? bun.price * 2 : 0
+    const accumulator = bun ? bun.price * 2 : 0
     return ingredients.reduce((acc, { price }) => acc + price, accumulator)
   }, [ingredients, bun])
 
@@ -79,11 +75,11 @@ export default function BurgerConstructor() {
       )}
       <section
         ref={dropTargetRef}
-        className={classnames(styles.constructor, {
+        className={classnames(styles.section, {
           isHover: isHover ? styles.onHover : '',
         })}
       >
-        <ElementsContainer bun={bun} ingredients={ingredients} />
+        <ElementsContainer />
       </section>
       <ConstructorFooter
         price={totalPrice}
@@ -93,3 +89,5 @@ export default function BurgerConstructor() {
     </section>
   )
 }
+
+export default BurgerConstructor

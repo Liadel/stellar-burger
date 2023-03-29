@@ -1,22 +1,21 @@
 import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import classnames from 'classnames'
 import styles from './Tabs.module.css'
 
-Tabs.propTypes = {
-  currentTab: PropTypes.oneOf(['bun', 'sauce', 'main', '']),
-  handleTabClick: PropTypes.func.isRequired,
+type TabsProps = {
+  currentTab: string,
+  handleTabClick(value: string): void
 }
 
-export default function Tabs({ currentTab = 'bun', handleTabClick }) {
+const Tabs: React.FC<TabsProps> = ({ currentTab = 'bun', handleTabClick }) => {
   const [current, setCurrent] = React.useState(currentTab)
 
   useEffect(() => {
     setCurrent(currentTab)
   }, [currentTab])
 
-  function handleClick(value) {
+  function handleClick(value:string) {
     handleTabClick(value)
     setCurrent(value)
   }
@@ -35,3 +34,5 @@ export default function Tabs({ currentTab = 'bun', handleTabClick }) {
     </div>
   )
 }
+
+export default Tabs

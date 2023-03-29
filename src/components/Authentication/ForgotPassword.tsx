@@ -1,29 +1,29 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useState, FC } from 'react'
 import { Link } from 'react-router-dom'
 import {
-  Input,
-  PasswordInput,
+  EmailInput,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-
 import Form from '../Form/Form'
 import { useSelector } from 'react-redux'
 import { selectUser } from '../../services/selectors'
 import { ROUTES } from '../../constants'
 
-ResetPassword.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+type ForgotPasswordProps = {
+  onSubmit(arg: ForgotPasswordState): void,
 }
 
-function ResetPassword({ onSubmit }) {
+type ForgotPasswordState = {
+  email: string
+}
+
+const ForgotPassword: FC<ForgotPasswordProps> = ({ onSubmit }) => {
   const { loading, error } = useSelector(selectUser)
-  const [formData, setFormData] = useState({
-    password: '',
-    token: '',
+  const [formData, setFormData] = useState<ForgotPasswordState>({
+    email: '',
   })
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData({
       ...formData,
@@ -31,7 +31,7 @@ function ResetPassword({ onSubmit }) {
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
     onSubmit(formData)
   }
@@ -40,18 +40,11 @@ function ResetPassword({ onSubmit }) {
     <Form onSubmit={handleSubmit}>
       <h1 className="text text_type_main-medium pb-6">Восстановление пароля</h1>
 
-      <PasswordInput
-        name="password"
-        value={formData.password}
+      <EmailInput
+        name="email"
+        value={formData.email}
         onChange={handleChange}
-        placeholder="Введите новый пароль"
-      />
-      <Input
-        name="token"
-        value={Form.dataToken}
-        onChange={handleChange}
-        placeholder="Введите код из письма"
-        extraClass="mt-6"
+        placeholder="Укажите e-mail"
       />
 
       {error && (
@@ -59,7 +52,7 @@ function ResetPassword({ onSubmit }) {
       )}
 
       <Button htmlType="submit" extraClass="mt-6" disabled={loading}>
-        Сохранить
+        Восстановить
       </Button>
       <footer className="text text_type_main-small text_color_inactive mt-20">
         {'Вспомнили пароль? '}
@@ -69,4 +62,4 @@ function ResetPassword({ onSubmit }) {
   )
 }
 
-export default ResetPassword
+export default ForgotPassword

@@ -8,9 +8,15 @@ import styles from './Modal.module.css'
 
 const modalRoot = document.getElementById('react-modals');
 
-export default function Modal( { children, title='', onClose }){
+type ModalProps = {
+  children: React.ReactNode,
+  title?: string,
+  onClose(): void
+}
+
+const Modal: React.FC<ModalProps> = ( { children, title='', onClose }) => {
   useEffect(() => {
-    const handleEsc = (e) => {
+    const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
     }
 
@@ -25,7 +31,7 @@ export default function Modal( { children, title='', onClose }){
           <header className={styles.header}>
             <h2 className='text text_type_main-large pr-5'>{title}</h2>
             <button className={styles.button} onClick={() => onClose()}>
-              <CloseIcon style={{cursor: 'pointer'}} type='primary' />
+              <CloseIcon  type='primary' />
             </button> 
           </header>
           {children}
@@ -33,6 +39,8 @@ export default function Modal( { children, title='', onClose }){
         <ModalOverlay onClose={onClose} />
       </div>
     ), 
-    modalRoot
+    modalRoot as HTMLElement
   );
 }
+
+export default Modal

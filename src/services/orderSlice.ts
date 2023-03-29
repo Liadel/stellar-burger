@@ -1,17 +1,24 @@
 
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
+import {createSlice, createAsyncThunk, SerializedError} from '@reduxjs/toolkit'
 import { API_URL } from '../constants';
 import { requestWrapper } from '../utils';
 
 export const sendOrder = createAsyncThunk(
   'order/sendOrder',
-  async (payload) => {
+  async (payload: {ingredients: string[] | null}) => {
     const data = await requestWrapper(`${API_URL}/orders`, { method: 'POST', payload});
     return data;
   }
 );
 
-const initialState = {
+type OrderState = {
+  number: number | null,
+  name: string,
+  loading: boolean,
+  error: null | SerializedError
+}
+
+const initialState: OrderState = {
   number: null,
   name: '',
   loading: false,
@@ -39,7 +46,7 @@ export const orderSlice = createSlice({
       })
       .addCase(sendOrder.rejected, (state, action) => {
         state.loading = false
-        state.error = action.payload
+        state.error = action.error
         state.number = initialState.number
         state.name = initialState.name
       });

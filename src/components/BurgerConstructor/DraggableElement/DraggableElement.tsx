@@ -1,38 +1,44 @@
 import React, { memo, useRef } from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { useDrop, useDrag } from 'react-dnd'
+import { useDrop, useDrag, XYCoord, DropTargetMonitor } from 'react-dnd'
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './DraggableElement.module.css'
-import { IngredientPropTypes } from '../../../types/IngredientPropTypes'
+import { Ingredient } from '../../../types/IngredienTypes'
 
-DraggableElement.propTypes = {
-  draggable: PropTypes.bool,
-  children: PropTypes.node.isRequired,
-  extraClass: PropTypes.string,
-  moveCard: PropTypes.func.isRequired,
-  index: PropTypes.number.isRequired,
-  ingredient: IngredientPropTypes.isRequired,
+type DraggableElementProps = {
+  draggable?: boolean,
+  children: React.ReactNode,
+  extraClass?: string,
+  moveCard?(from: number, to: number):  void,
+  index?: number,
+  ingredient?: Ingredient,
 }
 
-function DraggableElement({
+const DraggableElement: React.FC<DraggableElementProps>= ({
   draggable = true,
   extraClass,
   children,
   ingredient,
   index,
   moveCard,
-}) {
-  const ref = useRef(null)
+}) => {
+  const ref = useRef<HTMLLIElement | null>(null)
 
-  const [{ handlerId }, drop] = useDrop({
+  const [{ handlerId }, drop] = useDrop<
+    { type: string; index: number; id: string },
+    void,
+    { handlerId: string }
+  >({
     accept: 'component',
-    collect(monitor) {
+    collect(monitor: DropTargetMonitor) {
       return {
-        handlerId: monitor.getHandlerId(),
+        handlerId: monitor.getHandlerId()?.toString() || '',
       }
     },
-    hover(item, monitor) {
+    hover(item, monitor: DropTargetMonitor) {
+      if (!moveCard || !index) {
+        return
+      }
       if (!ref.current) {
         return
       }
@@ -49,7 +55,7 @@ function DraggableElement({
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
       const clientOffset = monitor.getClientOffset()
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top
+      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return
@@ -66,7 +72,7 @@ function DraggableElement({
 
   const [{ isDragging }, drag] = useDrag({
     type: 'component',
-    item: () => ({ id: ingredient._id, index }),
+    item: () => ({ id: ingredient?._id, index }),
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),

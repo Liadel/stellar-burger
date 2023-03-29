@@ -93,9 +93,9 @@ export const resetPassword = createAsyncThunk(
   }
 );
 
-type User = {
-  name: string | null,
-  email: string | null,
+export type User = {
+  name: string,
+  email: string,
 }
 
 type UserState = {
@@ -109,8 +109,8 @@ type UserState = {
 
 const initialState: UserState = {
   user: {
-    name: null,
-    email: null,
+    name: '',
+    email: '',
   },
   forgotPasswordEmailSend: false,
   resetPasswordSuccessful: false,

@@ -7,11 +7,11 @@ import Profile from '../components/Profile/Profile'
 const ProfilePage: FC = () =>  {
   const dispatch: any = useDispatch()
 
-  const onFormSubmit = (payload: UpdateUserPayload): void => {
+  const onFormSubmit = (payload: UpdateUserPayload) => {
     dispatch(updateUser(payload))
   }
 
-  const onLogOut = (e: Event): void => {
+  const onLogOut = (e: React.SyntheticEvent)=> {
     e.preventDefault()
     dispatch(logOut({ token: localStorage.getItem('refreshToken') }))
   }

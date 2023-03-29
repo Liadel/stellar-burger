@@ -1,10 +1,9 @@
-import React, {FC} from 'react'
-
+import React from 'react'
 import { useDispatch } from 'react-redux'
 import { Registration } from '../components/Authentication'
 import { signIn, SignInPayload } from '../services/userSlice'
 
-const RegistrationPage: FC = () => {
+const RegistrationPage: React.FC = () => {
   const dispatch: any = useDispatch()
 
   const onFormSubmit = (payload: SignInPayload): void => {

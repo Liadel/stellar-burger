@@ -30,8 +30,8 @@ import { ROUTES } from '../../constants'
 
 import styles from './App.module.css'
 
-function App() {
-  const dispatch = useDispatch()
+const App = () => {
+  const dispatch: any = useDispatch()
 
   useEffect(() => {
     try {
@@ -48,7 +48,7 @@ function App() {
   const ModalSwitch = () => {
     const location = useLocation()
     const navigate = useNavigate()
-    let background = location.state && location.state.background
+    const background: Location = location.state && location.state.background
 
     const handleModalClose = () => {
       navigate(-1)

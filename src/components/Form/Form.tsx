@@ -1,16 +1,15 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import cn from 'classnames'
 
 import styles from './Form.module.css'
 
-Form.propTypes = {
-  children: PropTypes.node.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  extraClass: PropTypes.string,
+type FormProps =  {
+  children: React.ReactNode;
+  onSubmit: (() => void) | ((e: React.SyntheticEvent) => void);
+  extraClass?: string
 }
 
-function Form({ children, onSubmit, extraClass }) {
+const Form: React.FC<FormProps> = ({ children, onSubmit, extraClass }) => {
   return (
     <form className={cn(styles.wrapper, extraClass)} onSubmit={onSubmit}>
       {children}

@@ -1,12 +1,21 @@
-import React, { forwardRef, memo } from 'react'
-import PropTypes from 'prop-types'
+/* eslint-disable react/prop-types */
+import React, { forwardRef, memo, RefObject } from 'react'
+
 import classnames from 'classnames'
 import IngredientPreview from './IngredientPreview'
 import { INGREDIENT_TYPES } from '../../constants'
 
 import styles from './IngredientSection.module.css'
 
-const IngredientSection = forwardRef(({ type, ingredients }, ref) => {
+import { Ingredient, IngredientType } from '../../types/IngredienTypes'
+
+type IngredientSectionProps = {
+  type: IngredientType,
+  ingredients: Ingredient[]
+  ref: RefObject<HTMLElement>
+}
+
+const IngredientSection = forwardRef<HTMLElement, IngredientSectionProps>(({ type, ingredients }, ref) => {
   return (
     <section ref={ref} id={type}>
       <h2 className="text text_type_main-medium pb-6">
@@ -24,14 +33,5 @@ const IngredientSection = forwardRef(({ type, ingredients }, ref) => {
 })
 
 IngredientSection.displayName = 'IngredientSection'
-
-IngredientSection.propTypes = {
-  type: PropTypes.oneOf(['bun', 'sauce', 'main', '']),
-  ingredients: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-    })
-  ),
-}
 
 export default memo(IngredientSection)

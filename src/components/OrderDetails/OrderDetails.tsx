@@ -7,7 +7,7 @@ import { selectOrder } from '../../services/selectors'
 import check from '../../images/check-image.svg'
 import styles from './OrderDetails.module.css'
 
-export default function OrderDetails() {
+const OrderDetails: React.FC = () => {
   const { number } = useSelector(selectOrder)
 
   return (
@@ -24,3 +24,5 @@ export default function OrderDetails() {
     </div>
   )
 }
+
+export default OrderDetails

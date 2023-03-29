@@ -1,6 +1,7 @@
 
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
+import {createSlice, createAsyncThunk, SerializedError} from '@reduxjs/toolkit'
 import { API_URL } from '../constants';
+import { Ingredient } from '../types/IngredienTypes';
 import { requestWrapper } from '../utils';
 
 
@@ -12,7 +13,13 @@ export const fetchIngredients = createAsyncThunk(
   }
 );
 
-const initialState = {
+type IngredientsState = {
+  items: Ingredient[];
+  loading: boolean;
+  error: SerializedError | null;
+}
+
+const initialState:IngredientsState = {
   items: [],
   loading: false,
   error: null

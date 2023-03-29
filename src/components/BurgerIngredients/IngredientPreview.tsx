@@ -11,14 +11,14 @@ import {
 
 import { selectConstructorItems } from '../../services/selectors'
 
-import { IngredientPropTypes } from '../../types/IngredientPropTypes'
+import { Ingredient } from '../../types/IngredienTypes'
 import styles from './IngredientPreview.module.css'
 
-IngredientPreview.propTypes = {
-  ingredient: IngredientPropTypes,
+type IngredientPreviewProps = {
+  ingredient: Ingredient
 }
 
-function IngredientPreview({ ingredient }) {
+const IngredientPreview: React.FC<IngredientPreviewProps> = ({ ingredient }) => {
   const { _id, name, price, image } = ingredient
   const { bun, ingredients } = useSelector(selectConstructorItems)
 

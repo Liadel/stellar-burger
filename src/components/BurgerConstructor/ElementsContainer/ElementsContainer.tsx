@@ -1,23 +1,23 @@
 import React, { useCallback } from 'react'
-import PropTypes from 'prop-types'
 import { useSelector, useDispatch } from 'react-redux'
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components'
 import DraggableElement from '../DraggableElement/DraggableElement'
 
-import { IngredientPropTypes } from '../../../types/IngredientPropTypes'
+
 import styles from './ElementsContainer.module.css'
 import {
   removeIngredient,
   updateIngredients,
 } from '../../../services/constructorItemsSlice'
 import { selectConstructorItems } from '../../../services/selectors'
+import { RootState } from '../../../services/store'
 
-const ElementsContainer = () => {
+const ElementsContainer: React.FC = () => {
   const dispatch = useDispatch()
-  const { bun, ingredients } = useSelector(selectConstructorItems)
+  const { bun, ingredients } = useSelector((state: RootState) => selectConstructorItems(state))
 
   const moveCard = useCallback(
-    (dragIndex, hoverIndex) => {
+    (dragIndex: number, hoverIndex: number) => {
       const dragCard = ingredients[dragIndex]
       const newCards = [...ingredients]
 
@@ -77,9 +77,5 @@ const ElementsContainer = () => {
   )
 }
 
-ElementsContainer.propTypes = {
-  bun: IngredientPropTypes,
-  ingredients: PropTypes.arrayOf(IngredientPropTypes),
-}
 
 export default ElementsContainer

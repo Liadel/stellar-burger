@@ -9,7 +9,7 @@ import { selectIngredients } from '../../services/selectors'
 
 import styles from './Main.module.css'
 
-function Main() {
+const Main: React.FC = () => {
   const { loading, error } = useSelector(selectIngredients)
 
   return (

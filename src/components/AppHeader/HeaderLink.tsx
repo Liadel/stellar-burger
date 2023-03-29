@@ -1,17 +1,17 @@
-import React from 'react'
+import React, {FC} from 'react'
 import { NavLink } from 'react-router-dom'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
 import styles from './HeaderLink.module.css'
 
-HeaderLink.propTypes = {
-  icon: PropTypes.element.isRequired,
-  children: PropTypes.node.isRequired,
-  to: PropTypes.string.isRequired,
+
+type HeaderLinkProps = {
+  icon: React.ReactNode
+  to: string;
+  children: React.ReactNode
 }
 
-function HeaderLink({ icon, children, to }) {
+const HeaderLink: FC<HeaderLinkProps> = ({ icon, children, to }) =>{
   return (
     <NavLink
       to={to}

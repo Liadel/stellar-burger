@@ -2,21 +2,19 @@ import React from 'react'
 import classnames from 'classnames'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { IngredientPropTypes } from '../../types/IngredientPropTypes'
+import { RootState } from '../../services/store'
 
 import styles from './IngredientDetails.module.css'
 
-IngredientDetails.propTypes = {
-  ingredient: IngredientPropTypes,
-}
-
-export default function IngredientDetails() {
+const IngredientDetails: React.FC = () => {
   const { ingredientId } = useParams()
-  const { items } = useSelector((state) => state.ingredients)
+  const { items } = useSelector((state: RootState) => state.ingredients)
   if (!items.length) return null
 
-  const { name, image_large, proteins, fat, carbohydrates, calories } =
-    items.find(({ _id }) => _id === ingredientId)
+  const ingredient = items.find(({ _id }) => _id === ingredientId)
+  if (!ingredient) return null
+
+  const { name, image_large, proteins, fat, carbohydrates, calories } = ingredient
 
   return (
     <div className={classnames(styles.wrapper, 'pb-5', 'pl-15', 'pr-15')}>
@@ -52,3 +50,5 @@ export default function IngredientDetails() {
     </div>
   )
 }
+
+export default IngredientDetails

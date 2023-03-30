@@ -31,7 +31,7 @@ const ForgotPassword: FC<ForgotPasswordProps> = ({ onSubmit }) => {
     })
   }
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     onSubmit(formData)
   }

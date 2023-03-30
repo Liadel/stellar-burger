@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import { useLocation, Navigate } from 'react-router-dom'
 
@@ -7,12 +6,12 @@ import { selectUser } from '../../services/selectors'
 
 import { ROUTES } from '../../constants'
 
-ProtectedRoute.propTypes = {
-  children: PropTypes.node.isRequired,
-  anonymousOnly: PropTypes.bool,
+type ProtectedRouteProps = {
+  children: React.ReactElement,
+  anonymousOnly?: boolean
 }
 
-function ProtectedRoute({ children, anonymousOnly = false }) {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, anonymousOnly = false }) =>  {
   const { isLoggedIn } = useSelector(selectUser)
 
   const location = useLocation()
@@ -25,8 +24,8 @@ function ProtectedRoute({ children, anonymousOnly = false }) {
   if (!anonymousOnly && !isLoggedIn) {
     return <Navigate to={ROUTES.logIn} state={{ from: location }} />
   }
-
-  return children
+  
+  return children 
 }
 
 export default ProtectedRoute

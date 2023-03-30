@@ -36,7 +36,7 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ onSubmit }) => {
     })
   }
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     onSubmit(formData)
   }

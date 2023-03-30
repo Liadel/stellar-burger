@@ -40,7 +40,7 @@ const Registration: React.FC<RegistrationProps> = ({ onSubmit }) => {
     })
   }
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     onSubmit(formData)
   }

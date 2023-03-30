@@ -6,6 +6,11 @@ interface RequestWrapperOptions {
   payload?: Record<string, unknown>;
 }
 
+type AccessTokens = {
+  accessToken: string,
+  refreshToken: string
+}
+
 export const createRequestHeaders = (headers: HeadersInit = {}): HeadersInit => {
   const accessToken = localStorage.getItem('accessToken')
   
@@ -54,7 +59,7 @@ export const requestWrapper = async (url: string, options: RequestWrapperOptions
   }
 }
 
-export const refreshAccessToken = async (token: string ): Promise<{accessToken: string, refreshToken: string}> => {
+export const refreshAccessToken = async (token: string ): Promise<AccessTokens> => {
   const response = await fetch(`${API_URL}${AUTH_TOKEN}`, {
     method: 'POST',
     headers: createRequestHeaders(),
@@ -67,7 +72,6 @@ export const refreshAccessToken = async (token: string ): Promise<{accessToken: 
   const {accessToken, refreshToken} = await response.json();
 
   setTokens({accessToken, refreshToken})
-
   return { accessToken, refreshToken }
 }
 
@@ -75,7 +79,7 @@ export const getRandomInt = (max: number): number => {
   return Math.floor(Math.random() * max);
 }
 
-export const setTokens = ({accessToken, refreshToken}: { accessToken: string, refreshToken: string }) => {
+export const setTokens = ({accessToken, refreshToken}: AccessTokens) => {
   localStorage.setItem('accessToken', accessToken.split(' ')[1])
   localStorage.setItem('refreshToken', refreshToken)
 }

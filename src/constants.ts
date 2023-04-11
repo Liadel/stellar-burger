@@ -22,5 +22,9 @@ export const ROUTES = {
   signIn: '/register',
   ingredientDetails: '/ingredients/:ingredientId',
   forgotPassword: '/forgot-password',
-  resetPassword: '/reset-password'
+  resetPassword: '/reset-password',
+  feed: '/feed',
+  feedOrder: '/feed/:id',
+  orders: '/profile/orders',
+  profileOrder: '/profile/orders/:id'
 };

@@ -11,7 +11,7 @@ import {
 
 import { selectConstructorItems } from '../../services/selectors'
 
-import { Ingredient } from '../../types/IngredienTypes'
+import { Ingredient } from '../../types/IngredientTypes'
 import styles from './IngredientPreview.module.css'
 
 type IngredientPreviewProps = {

@@ -1,6 +1,6 @@
 
 import { createSlice } from '@reduxjs/toolkit'
-import { Ingredient } from '../types/IngredienTypes'
+import { Ingredient } from '../types/IngredientTypes'
 
 type DraggableIngredient = Ingredient & {dragId: string}
 

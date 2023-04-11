@@ -7,7 +7,7 @@ import { INGREDIENT_TYPES } from '../../constants'
 
 import styles from './IngredientSection.module.css'
 
-import { Ingredient, IngredientType } from '../../types/IngredienTypes'
+import { Ingredient, IngredientType } from '../../types/IngredientTypes'
 
 type IngredientSectionProps = {
   type: IngredientType,

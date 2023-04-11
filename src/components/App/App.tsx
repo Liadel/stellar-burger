@@ -20,7 +20,15 @@ import {
   RegistrationPage,
   ForgotPasswordPage,
   ResetPasswordPage,
+  // OrderPage,
+  // OrdersPage,
+  // FeedPage
 } from '../../pages'
+// import TestPage from './test';
+import FeedPage from '../../pages/FeedPage'
+import OrderPage from '../../pages/OrderPage'
+import OrdersPage from '../../pages/OrdersPage'
+import UserProfile from '../Profile/UserProfile'
 
 import IngredientDetails from '../IngredientDetails/IngredientDetails'
 
@@ -63,6 +71,7 @@ const App = () => {
         <div className={styles.wrapper}>
           <Routes location={background || location}>
             <Route path={ROUTES.home} element={<HomePage />} />
+            <Route path={ROUTES.feed} element={<FeedPage />} />
             <Route
               path={ROUTES.logIn}
               element={
@@ -78,7 +87,23 @@ const App = () => {
                   <ProfilePage />
                 </ProtectedRoute>
               }
-            />
+            >
+              <Route  path={ROUTES.profile} element={
+                <ProtectedRoute>
+                 <UserProfile />
+                </ProtectedRoute>
+              }/>
+              <Route  path={ROUTES.orders} element={
+                <ProtectedRoute>
+                 <OrdersPage />
+                </ProtectedRoute>
+              }/>
+              <Route  path={ROUTES.profileOrder}  element={
+                <ProtectedRoute>
+                 <OrderPage />
+                </ProtectedRoute>
+              }/>
+            </Route>
             <Route
               path={ROUTES.signIn}
               element={
@@ -111,6 +136,7 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
+
             <Route path="/*" element={<NotFound404 />} />
           </Routes>
           {background && (

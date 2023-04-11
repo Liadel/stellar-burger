@@ -7,7 +7,7 @@ import { nanoid } from '@reduxjs/toolkit'
 import classnames from 'classnames'
 import Modal from '../Modal/Modal'
 import OrderDetails from '../OrderDetails/OrderDetails'
-import { Ingredient } from '../../types/IngredienTypes'
+import { Ingredient } from '../../types/IngredientTypes'
 
 import styles from './BurgerConstructor.module.css'
 import ConstructorFooter from './ConstructorFooter/ConstructorFooter'

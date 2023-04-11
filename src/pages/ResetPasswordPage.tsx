@@ -9,7 +9,7 @@ import { RootState} from '../services/store'
 
 import { ROUTES } from '../constants'
 
-function ResetPasswordPage() {
+const ResetPasswordPage: React.FC = () => {
   const { resetPasswordSuccessful } = useSelector((state: RootState) => selectUser(state))
   const dispatch: any = useDispatch()
   const location = useLocation()

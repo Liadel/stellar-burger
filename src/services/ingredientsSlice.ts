@@ -1,7 +1,7 @@
 
 import {createSlice, createAsyncThunk, SerializedError} from '@reduxjs/toolkit'
 import { API_URL } from '../constants';
-import { Ingredient } from '../types/IngredienTypes';
+import { Ingredient } from '../types/IngredientTypes';
 import { requestWrapper } from '../utils';
 
 

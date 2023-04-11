@@ -8,7 +8,7 @@ import {
 } from '../../services/selectors'
 
 import { INGREDIENT_TYPES } from '../../constants'
-import { IngredientType } from '../../types/IngredienTypes'
+import { IngredientType } from '../../types/IngredientTypes'
 
 import styles from './BurgerIngredients.module.css'
 

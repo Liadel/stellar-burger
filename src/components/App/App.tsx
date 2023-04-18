@@ -20,11 +20,9 @@ import {
   RegistrationPage,
   ForgotPasswordPage,
   ResetPasswordPage,
-  // OrderPage,
-  // OrdersPage,
-  // FeedPage
+
 } from '../../pages'
-// import TestPage from './test';
+
 import FeedPage from '../../pages/FeedPage'
 import OrderPage from '../../pages/OrderPage'
 import OrdersPage from '../../pages/OrdersPage'

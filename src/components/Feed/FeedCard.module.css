@@ -1,0 +1,26 @@
+.card {
+  list-style: none;
+  border-radius: 40px;
+  background-color: #1C1C21;
+  /* padding: auto; */
+}
+.lineWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.price {
+  display: flex;
+}
+
+.icons {
+  display: flex;
+  flex-direction: row-reverse;
+  width: fit-content;
+  color: white;
+}
+
+figure.overflow {
+  margin-right: -16px;
+}

@@ -5,3 +5,4 @@ export const selectIngredients = (state: RootState) => state.ingredients
 export const selectAllIngredients = (state: RootState) => state.ingredients.items
 export const selectConstructorItems = (state: RootState) => state.constructorItems
 export const selectOrder = (state: RootState) => state.order
+export const selectFeed = (state: RootState) => state.feed

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch } from '../../services/store'
 import {
   BrowserRouter,
   Routes,
@@ -20,7 +20,6 @@ import {
   RegistrationPage,
   ForgotPasswordPage,
   ResetPasswordPage,
-
 } from '../../pages'
 
 import FeedPage from '../../pages/FeedPage'
@@ -30,14 +29,14 @@ import UserProfile from '../Profile/UserProfile'
 
 import IngredientDetails from '../IngredientDetails/IngredientDetails'
 
-import { getUser } from '../../services/userSlice'
-import { fetchIngredients } from '../../services/ingredientsSlice'
+import { getUser } from '../../services/slices/userSlice'
+import { fetchIngredients } from '../../services/slices/ingredientsSlice'
 import { ROUTES } from '../../constants'
 
 import styles from './App.module.css'
 
 const App = () => {
-  const dispatch: any = useDispatch()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     try {
@@ -59,8 +58,8 @@ const App = () => {
     const handleModalClose = () => {
       navigate(-1)
     }
-    const handlePageClose = () => {
-      navigate(ROUTES.home)
+    const handlePageClose = (route: string) => {
+      navigate(route)
     }
 
     return (
@@ -70,6 +69,7 @@ const App = () => {
           <Routes location={background || location}>
             <Route path={ROUTES.home} element={<HomePage />} />
             <Route path={ROUTES.feed} element={<FeedPage />} />
+            <Route path={ROUTES.feedOrder} element={<OrderPage />} />
             <Route
               path={ROUTES.logIn}
               element={
@@ -84,24 +84,32 @@ const App = () => {
                 <ProtectedRoute>
                   <ProfilePage />
                 </ProtectedRoute>
-              }
-            >
-              <Route  path={ROUTES.profile} element={
-                <ProtectedRoute>
-                 <UserProfile />
-                </ProtectedRoute>
-              }/>
-              <Route  path={ROUTES.orders} element={
-                <ProtectedRoute>
-                 <OrdersPage />
-                </ProtectedRoute>
-              }/>
-              <Route  path={ROUTES.profileOrder}  element={
-                <ProtectedRoute>
-                 <OrderPage />
-                </ProtectedRoute>
-              }/>
+              }>
+              <Route
+                path={ROUTES.profile}
+                element={
+                  <ProtectedRoute>
+                    <UserProfile />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path={ROUTES.orders}
+                element={
+                  <ProtectedRoute>
+                    <OrdersPage />
+                  </ProtectedRoute>
+                }
+              />
             </Route>
+            <Route
+              path={ROUTES.profileOrder}
+              element={
+                <ProtectedRoute>
+                  <OrderPage />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path={ROUTES.signIn}
               element={
@@ -113,7 +121,9 @@ const App = () => {
             <Route
               path={ROUTES.ingredientDetails}
               element={
-                <Modal onClose={handlePageClose} title="Детали ингредиента">
+                <Modal
+                  onClose={() => handlePageClose(ROUTES.home)}
+                  title="Детали ингредиента">
                   <IngredientDetails />
                 </Modal>
               }
@@ -145,6 +155,24 @@ const App = () => {
                   <Modal onClose={handleModalClose} title="Детали ингредиента">
                     <IngredientDetails />
                   </Modal>
+                }
+              />
+              <Route
+                path={ROUTES.feedOrder}
+                element={
+                  <Modal onClose={handleModalClose}>
+                    <OrderPage />
+                  </Modal>
+                }
+              />
+              <Route
+                path={ROUTES.profileOrder}
+                element={
+                  <ProtectedRoute background={background}>
+                    <Modal onClose={handleModalClose}>
+                      <OrderPage />
+                    </Modal>
+                  </ProtectedRoute>
                 }
               />
             </Routes>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from '../../services/store'
 
 import {
   Input,
@@ -11,18 +11,17 @@ import Form from '../Form/Form'
 import styles from './Profile.module.css'
 import { selectUser } from '../../services/selectors'
 
-import { User, updateUser } from '../../services/userSlice'
-
+import { User, updateUser } from '../../services/slices/userSlice'
 
 type FormData = User & {
   password: string
 }
 
-const Profile: React.FC = () => {
-  const dispatch: any = useDispatch()
+const UserProfile: React.FC = () => {
+  const dispatch = useDispatch()
   const { user } = useSelector(selectUser)
   const initialFormData: FormData = { ...user, password: '' }
-  const [ disabled, setDisabled ] = useState(true)
+  const [disabled, setDisabled] = useState(true)
   const [formData, setFormData] = useState(initialFormData)
   const [hasChanged, setHasChanged] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -52,8 +51,8 @@ const Profile: React.FC = () => {
     inputRef.current?.focus()
   }
   const onBlur = () => {
-    setDisabled(true);
-};
+    setDisabled(true)
+  }
 
   useEffect(() => {
     const hasFormChanged =
@@ -95,8 +94,7 @@ const Profile: React.FC = () => {
             onClick={handleReset}
             htmlType="reset"
             type="secondary"
-            size="medium"
-          >
+            size="medium">
             Отмена
           </Button>
           <Button htmlType="submit">Сохранить</Button>
@@ -106,4 +104,4 @@ const Profile: React.FC = () => {
   )
 }
 
-export default Profile
+export default UserProfile

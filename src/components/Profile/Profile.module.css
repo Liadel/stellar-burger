@@ -1,37 +1,11 @@
-.wrapper {
-  display: flex;
-  width: 100%;
-  padding: 120px 20px;
-  align-self: start;
-  
-}
 
-.navigation {
-  display: flex;
-  flex-direction: column; 
-  width: 320px;
-}
-
-.footer {
-  width: 320px;
-}
-
-.link {
-  display: flex;
-  align-items: center;
-  height: 64px;
-  text-decoration: none;
-}
-.active {
-  color: var(--text-primary-color)
-}
 .form {
   max-width: 480px;
+  padding-top: 80px
 }
 .actions {
   width: 100%;
   display: flex;
   justify-content: end;
   padding-top: 24px;
-
 }

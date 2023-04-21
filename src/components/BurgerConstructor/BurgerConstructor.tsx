@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from '../../services/store'
 import { useDrop } from 'react-dnd'
 import { nanoid } from '@reduxjs/toolkit'
 
@@ -13,8 +13,8 @@ import styles from './BurgerConstructor.module.css'
 import ConstructorFooter from './ConstructorFooter/ConstructorFooter'
 import ElementsContainer from './ElementsContainer/ElementsContainer'
 
-import { sendOrder, clearOrder } from '../../services/orderSlice'
-import { addIngredient } from '../../services/constructorItemsSlice'
+import { sendOrder, clearOrder } from '../../services/slices/orderSlice'
+import { addIngredient } from '../../services/slices/constructorItemsSlice'
 
 import {
   selectOrder,
@@ -23,9 +23,9 @@ import {
 } from '../../services/selectors'
 import { ROUTES } from '../../constants'
 
- const BurgerConstructor: React.FC = () => {
+const BurgerConstructor: React.FC = () => {
   const navigate = useNavigate()
-  const dispatch: any = useDispatch()
+  const dispatch = useDispatch()
   const { ingredients, bun } = useSelector(selectConstructorItems)
   const { number, loading } = useSelector(selectOrder)
   const { isLoggedIn } = useSelector(selectUser)
@@ -77,8 +77,7 @@ import { ROUTES } from '../../constants'
         ref={dropTargetRef}
         className={classnames(styles.section, {
           isHover: isHover ? styles.onHover : '',
-        })}
-      >
+        })}>
         <ElementsContainer />
       </section>
       <ConstructorFooter

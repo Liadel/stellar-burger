@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector } from '../../services/store'
 
 import {
   Input,
@@ -12,15 +12,14 @@ import Form from '../Form/Form'
 import { selectUser } from '../../services/selectors'
 import { ROUTES } from '../../constants'
 
-
 type RegistrationProps = {
-  onSubmit(arg: RegistrationState): void,
+  onSubmit(arg: RegistrationState): void
 }
 
 type RegistrationState = {
-  name: string,
-  email: string,
-  password: string,
+  name: string
+  email: string
+  password: string
 }
 
 const Registration: React.FC<RegistrationProps> = ({ onSubmit }) => {

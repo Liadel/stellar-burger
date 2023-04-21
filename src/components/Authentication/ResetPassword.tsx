@@ -8,7 +8,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 
 import Form from '../Form/Form'
-import { useSelector } from 'react-redux'
+import { useSelector } from '../../services/store'
 import { selectUser } from '../../services/selectors'
 import { ROUTES } from '../../constants'
 
@@ -17,7 +17,7 @@ type ResetPasswordProps = {
 }
 
 type ResetPasswordState = {
-  password: string,
+  password: string
   token: string
 }
 

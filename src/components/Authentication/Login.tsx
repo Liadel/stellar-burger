@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector } from '../../services/store'
 import {
   EmailInput,
   PasswordInput,
@@ -15,8 +15,8 @@ type LoginProps = {
   onSubmit(arg: LoginState): void
 }
 
-type LoginState  = {
-  email: string;
+type LoginState = {
+  email: string
   password: string
 }
 

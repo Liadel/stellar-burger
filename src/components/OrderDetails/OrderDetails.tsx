@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector } from '../../services/store'
 import classnames from 'classnames'
 
 import { selectOrder } from '../../services/selectors'

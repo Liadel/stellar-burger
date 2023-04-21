@@ -5,12 +5,12 @@ import {
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import Form from '../Form/Form'
-import { useSelector } from 'react-redux'
+import { useSelector } from '../../services/store'
 import { selectUser } from '../../services/selectors'
 import { ROUTES } from '../../constants'
 
 type ForgotPasswordProps = {
-  onSubmit(arg: ForgotPasswordState): void,
+  onSubmit(arg: ForgotPasswordState): void
 }
 
 type ForgotPasswordState = {

@@ -56,7 +56,7 @@ const ElementsContainer: React.FC = () => {
                 text={name}
                 price={price}
                 thumbnail={image}
-                handleClose={() => dispatch(removeIngredient(_id))}
+                handleClose={() => dispatch(removeIngredient(i))}
               />
             </DraggableElement>
           )

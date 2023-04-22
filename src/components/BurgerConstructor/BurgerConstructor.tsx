@@ -14,7 +14,10 @@ import ConstructorFooter from './ConstructorFooter/ConstructorFooter'
 import ElementsContainer from './ElementsContainer/ElementsContainer'
 
 import { sendOrder, clearOrder } from '../../services/slices/orderSlice'
-import { addIngredient } from '../../services/slices/constructorItemsSlice'
+import {
+  addIngredient,
+  clearConstructor,
+} from '../../services/slices/constructorItemsSlice'
 
 import {
   selectOrder,
@@ -55,7 +58,10 @@ const BurgerConstructor: React.FC = () => {
       bun._id,
     ]
     try {
-      dispatch(sendOrder({ ingredients: ingredientsToSend }))
+      const data = await dispatch(sendOrder({ ingredients: ingredientsToSend }))
+      if (data.payload.success) {
+        dispatch(clearConstructor())
+      }
     } catch (e) {
       console.log(e)
     }
@@ -68,9 +74,10 @@ const BurgerConstructor: React.FC = () => {
 
   return (
     <section className={classnames(styles.wrapper, 'pt-25 pl-5 pr-5 pb-5')}>
-      {number && (
+      {(number || loading) && (
         <Modal onClose={() => dispatch(clearOrder())}>
-          <OrderDetails />
+          {loading && 'Loading...'}
+          {number && <OrderDetails />}
         </Modal>
       )}
       <section

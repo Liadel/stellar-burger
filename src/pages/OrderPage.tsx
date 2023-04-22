@@ -5,14 +5,13 @@ import {
   FormattedDate,
   CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components'
-import { useSelector } from '../services/store'
+import { useSelector, useDispatch } from '../services/store'
 import { selectFeed, selectAllIngredients } from '../services/selectors'
 import { Ingredient } from '../types/IngredientTypes'
 import IngredientElement from '../components/Feed/IngredientElement'
 
 import styles from './OrderPage.module.css'
 import { connect, disconnect } from '../services/actions'
-import { useDispatch } from 'react-redux'
 import { WebsocketStatus } from '../types'
 import { ROUTES, WS_URL, ORDER_STATUSES } from '../constants'
 

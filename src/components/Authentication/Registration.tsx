@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from '../../services/store'
 
@@ -11,6 +11,7 @@ import {
 import Form from '../Form/Form'
 import { selectUser } from '../../services/selectors'
 import { ROUTES } from '../../constants'
+import { useForm } from '../../hooks/useForm'
 
 type RegistrationProps = {
   onSubmit(arg: RegistrationState): void
@@ -24,26 +25,17 @@ type RegistrationState = {
 
 const Registration: React.FC<RegistrationProps> = ({ onSubmit }) => {
   const { loading, error } = useSelector(selectUser)
+  const initialState: RegistrationState = { name: '', email: '', password: '' }
 
-  const [formData, setFormData] = useState<RegistrationState>({
-    name: '',
-    email: '',
-    password: '',
-  })
+  const { values, handleChange } = useForm(initialState)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData({
-      ...formData,
-      [name]: value,
-    })
-  }
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    onSubmit(formData)
-  }
-
+  const handleSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+      onSubmit(values)
+    },
+    [values, onSubmit]
+  )
   return (
     <Form onSubmit={handleSubmit}>
       <h1 className="text text_type_main-medium pb-6">Регистрация</h1>
@@ -51,21 +43,21 @@ const Registration: React.FC<RegistrationProps> = ({ onSubmit }) => {
         placeholder={'Имя'}
         type={'text'}
         name={'name'}
-        value={formData.name}
+        value={values.name}
         onChange={handleChange}
       />
       <EmailInput
         extraClass="mt-6"
         placeholder="E-mail"
         name={'email'}
-        value={formData.email}
+        value={values.email}
         onChange={handleChange}
       />
       <PasswordInput
         extraClass="mt-6"
         placeholder="Пароль"
         name={'password'}
-        value={formData.password}
+        value={values.password}
         onChange={handleChange}
       />
       {error && (

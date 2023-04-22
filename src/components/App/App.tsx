@@ -121,11 +121,12 @@ const App = () => {
             <Route
               path={ROUTES.ingredientDetails}
               element={
-                <Modal
-                  onClose={() => handlePageClose(ROUTES.home)}
-                  title="Детали ингредиента">
+                <>
+                  <h2 className="text text_type_main-large pb-10">
+                    Детали ингредиента
+                  </h2>
                   <IngredientDetails />
-                </Modal>
+                </>
               }
             />
             <Route

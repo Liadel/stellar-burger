@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback } from 'react'
 
 import { Link } from 'react-router-dom'
 import { useSelector } from '../../services/store'
@@ -10,6 +10,7 @@ import {
 import Form from '../Form/Form'
 import { selectUser } from '../../services/selectors'
 import { ROUTES } from '../../constants'
+import { useForm } from '../../hooks/useForm'
 
 type LoginProps = {
   onSubmit(arg: LoginState): void
@@ -22,37 +23,30 @@ type LoginState = {
 
 const Login: React.FC<LoginProps> = ({ onSubmit }) => {
   const { loading, error } = useSelector(selectUser)
+  const initialState: LoginState = { email: '', password: '' }
 
-  const [formData, setFormData] = useState<LoginState>({
-    email: '',
-    password: '',
-  })
+  const { values, handleChange } = useForm(initialState)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData({
-      ...formData,
-      [name]: value,
-    })
-  }
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    onSubmit(formData)
-  }
+  const handleSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+      onSubmit(values)
+    },
+    [values, onSubmit]
+  )
 
   return (
     <Form onSubmit={handleSubmit}>
       <h1 className="text text_type_main-medium pb-6">Войти</h1>
       <EmailInput
         name={'email'}
-        value={formData.email}
+        value={values.email}
         placeholder="E-mail"
         onChange={handleChange}
       />
       <PasswordInput
         name={'password'}
-        value={formData.password}
+        value={values.password}
         extraClass="mt-6"
         placeholder="Пароль"
         onChange={handleChange}

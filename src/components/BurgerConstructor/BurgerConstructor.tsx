@@ -51,19 +51,22 @@ const BurgerConstructor: React.FC = () => {
   const handleOrderSend = async () => {
     if (!isLoggedIn) {
       navigate(ROUTES.logIn)
-    }
-    const ingredientsToSend = bun && [
-      bun._id,
-      ...ingredients.map(({ _id }) => _id),
-      bun._id,
-    ]
-    try {
-      const data = await dispatch(sendOrder({ ingredients: ingredientsToSend }))
-      if (data.payload.success) {
-        dispatch(clearConstructor())
+    } else {
+      const ingredientsToSend = bun && [
+        bun._id,
+        ...ingredients.map(({ _id }) => _id),
+        bun._id,
+      ]
+      try {
+        const data = await dispatch(
+          sendOrder({ ingredients: ingredientsToSend })
+        )
+        if (data.payload.success) {
+          dispatch(clearConstructor())
+        }
+      } catch (e) {
+        console.log(e)
       }
-    } catch (e) {
-      console.log(e)
     }
   }
 

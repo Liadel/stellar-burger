@@ -1,28 +1,27 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from '../../services/store'
 import classnames from 'classnames'
 import Tabs from './Tabs'
 import IngredientSection from './IngredientSection'
-import {
-  selectIngredients,
-} from '../../services/selectors'
+import { selectIngredients } from '../../services/selectors'
 
 import { INGREDIENT_TYPES } from '../../constants'
-import { IngredientType } from '../../types/IngredienTypes'
+import { IngredientType } from '../../types/IngredientTypes'
 
 import styles from './BurgerIngredients.module.css'
 
 const BurgerIngredients: React.FC = () => {
-  const dispatch: any = useDispatch()
   const [currentTab, setTab] = useState('')
   const viewport = useRef<HTMLDivElement>(null)
-  const refs: Record<IngredientType, React.MutableRefObject<HTMLElement | null>> = {
+  const refs: Record<
+    IngredientType,
+    React.MutableRefObject<HTMLElement | null>
+  > = {
     bun: useRef<HTMLElement>(null),
     sauce: useRef<HTMLElement>(null),
     main: useRef<HTMLElement>(null),
   }
-  const { items: ingredients }  = useSelector(selectIngredients)
-  
+  const { items: ingredients } = useSelector(selectIngredients)
 
   useEffect(() => {
     const visibleHeaders: Record<string, boolean> = {}
@@ -42,8 +41,8 @@ const BurgerIngredients: React.FC = () => {
             break
           }
         }
-      }, options);
-      (Object.keys(refs) as IngredientType[]).map((key) => {
+      }, options)
+      ;(Object.keys(refs) as IngredientType[]).map((key) => {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         observer.observe(refs[key].current!)
       })
@@ -60,17 +59,19 @@ const BurgerIngredients: React.FC = () => {
       <h1 className="text text_type_main-large mb-5 ">Соберите бургер</h1>
       <Tabs handleTabClick={handleTabClick} currentTab={currentTab} />
       <div className={styles.ingredients} ref={viewport}>
-      {Object.keys(INGREDIENT_TYPES).map((sectionType) => {
-        const type = sectionType as IngredientType;
-        return (
-          <IngredientSection
-            ref={refs[type]}
-            key={type}
-            type={type}
-            ingredients={ingredients?.filter(({ type }) => type === sectionType)}
-          />
-        );
-      })}
+        {Object.keys(INGREDIENT_TYPES).map((sectionType) => {
+          const type = sectionType as IngredientType
+          return (
+            <IngredientSection
+              ref={refs[type]}
+              key={type}
+              type={type}
+              ingredients={ingredients?.filter(
+                ({ type }) => type === sectionType
+              )}
+            />
+          )
+        })}
       </div>
     </section>
   )

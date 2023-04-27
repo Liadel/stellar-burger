@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import { useDrop, useDrag, XYCoord, DropTargetMonitor } from 'react-dnd'
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './DraggableElement.module.css'
-import { Ingredient } from '../../../types/IngredienTypes'
+import { Ingredient } from '../../../types/IngredientTypes'
 
 type DraggableElementProps = {
   draggable?: boolean,

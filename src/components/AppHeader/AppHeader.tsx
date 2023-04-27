@@ -23,7 +23,7 @@ const AppHeader: FC = () => {
           >
             Конструктор
           </HeaderLink>
-          <HeaderLink to={'/list'} icon={<ListIcon type="primary" />}>
+          <HeaderLink to={ROUTES.feed} icon={<ListIcon type="primary" />}>
             Лента заказов
           </HeaderLink>
         </nav>

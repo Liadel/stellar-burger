@@ -1,20 +1,23 @@
 import React, { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from '../../services/store'
 import { useDrop } from 'react-dnd'
 import { nanoid } from '@reduxjs/toolkit'
 
 import classnames from 'classnames'
 import Modal from '../Modal/Modal'
 import OrderDetails from '../OrderDetails/OrderDetails'
-import { Ingredient } from '../../types/IngredienTypes'
+import { Ingredient } from '../../types/IngredientTypes'
 
 import styles from './BurgerConstructor.module.css'
 import ConstructorFooter from './ConstructorFooter/ConstructorFooter'
 import ElementsContainer from './ElementsContainer/ElementsContainer'
 
-import { sendOrder, clearOrder } from '../../services/orderSlice'
-import { addIngredient } from '../../services/constructorItemsSlice'
+import { sendOrder, clearOrder } from '../../services/slices/orderSlice'
+import {
+  addIngredient,
+  clearConstructor,
+} from '../../services/slices/constructorItemsSlice'
 
 import {
   selectOrder,
@@ -23,9 +26,9 @@ import {
 } from '../../services/selectors'
 import { ROUTES } from '../../constants'
 
- const BurgerConstructor: React.FC = () => {
+const BurgerConstructor: React.FC = () => {
   const navigate = useNavigate()
-  const dispatch: any = useDispatch()
+  const dispatch = useDispatch()
   const { ingredients, bun } = useSelector(selectConstructorItems)
   const { number, loading } = useSelector(selectOrder)
   const { isLoggedIn } = useSelector(selectUser)
@@ -48,16 +51,22 @@ import { ROUTES } from '../../constants'
   const handleOrderSend = async () => {
     if (!isLoggedIn) {
       navigate(ROUTES.logIn)
-    }
-    const ingredientsToSend = bun && [
-      bun._id,
-      ...ingredients.map(({ _id }) => _id),
-      bun._id,
-    ]
-    try {
-      dispatch(sendOrder({ ingredients: ingredientsToSend }))
-    } catch (e) {
-      console.log(e)
+    } else {
+      const ingredientsToSend = bun && [
+        bun._id,
+        ...ingredients.map(({ _id }) => _id),
+        bun._id,
+      ]
+      try {
+        const data = await dispatch(
+          sendOrder({ ingredients: ingredientsToSend })
+        )
+        if (data.payload.success) {
+          dispatch(clearConstructor())
+        }
+      } catch (e) {
+        console.log(e)
+      }
     }
   }
 
@@ -68,17 +77,17 @@ import { ROUTES } from '../../constants'
 
   return (
     <section className={classnames(styles.wrapper, 'pt-25 pl-5 pr-5 pb-5')}>
-      {number && (
+      {(number || loading) && (
         <Modal onClose={() => dispatch(clearOrder())}>
-          <OrderDetails />
+          {loading && 'Loading...'}
+          {number && <OrderDetails />}
         </Modal>
       )}
       <section
         ref={dropTargetRef}
         className={classnames(styles.section, {
           isHover: isHover ? styles.onHover : '',
-        })}
-      >
+        })}>
         <ElementsContainer />
       </section>
       <ConstructorFooter

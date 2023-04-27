@@ -1,20 +1,20 @@
-import React, {useEffect} from 'react';
-import {createPortal} from 'react-dom'
-import classnames from 'classnames';
-import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import ModalOverlay from './ModalOverlay';
+import React, { useEffect } from 'react'
+import { createPortal } from 'react-dom'
+import cn from 'classnames'
+import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import ModalOverlay from './ModalOverlay'
 
 import styles from './Modal.module.css'
 
-const modalRoot = document.getElementById('react-modals');
+const modalRoot = document.getElementById('react-modals')
 
 type ModalProps = {
-  children: React.ReactNode,
-  title?: string,
+  children: React.ReactNode
+  title?: string
   onClose(): void
 }
 
-const Modal: React.FC<ModalProps> = ( { children, title='', onClose }) => {
+const Modal: React.FC<ModalProps> = ({ children, title = '', onClose }) => {
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
@@ -25,22 +25,29 @@ const Modal: React.FC<ModalProps> = ( { children, title='', onClose }) => {
   }, [])
 
   return createPortal(
-    (
-      <div className={styles.wrapper}>
-        <div className={classnames(styles.modal, 'p-10')}>
+    <div className={styles.wrapper}>
+      <div className={cn(styles.modal, 'p-10')}>
+        {title && (
           <header className={styles.header}>
-            <h2 className='text text_type_main-large pr-5'>{title}</h2>
+            <h2 className="text text_type_main-large pr-5">{title}</h2>
             <button className={styles.button} onClick={() => onClose()}>
-              <CloseIcon  type='primary' />
-            </button> 
+              <CloseIcon type="primary" />
+            </button>
           </header>
-          {children}
-        </div>
-        <ModalOverlay onClose={onClose} />
+        )}
+        {!title && (
+          <button
+            className={cn(styles.button, styles.withoutTitle)}
+            onClick={() => onClose()}>
+            <CloseIcon type="primary" />
+          </button>
+        )}
+        {children}
       </div>
-    ), 
+      <ModalOverlay onClose={onClose} />
+    </div>,
     modalRoot as HTMLElement
-  );
+  )
 }
 
 export default Modal

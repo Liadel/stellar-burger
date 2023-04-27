@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback } from 'react'
 
 import { Link } from 'react-router-dom'
 import {
@@ -8,38 +8,35 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components'
 
 import Form from '../Form/Form'
-import { useSelector } from 'react-redux'
+import { useSelector } from '../../services/store'
 import { selectUser } from '../../services/selectors'
 import { ROUTES } from '../../constants'
+import { useForm } from '../../hooks/useForm'
 
 type ResetPasswordProps = {
   onSubmit(arg: ResetPasswordState): void
 }
 
 type ResetPasswordState = {
-  password: string,
+  password: string
   token: string
 }
 
 const ResetPassword: React.FC<ResetPasswordProps> = ({ onSubmit }) => {
   const { loading, error } = useSelector(selectUser)
-  const [formData, setFormData] = useState({
+  const initialState = {
     password: '',
     token: '',
-  })
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData({
-      ...formData,
-      [name]: value,
-    })
   }
+  const { values, handleChange } = useForm(initialState)
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    onSubmit(formData)
-  }
+  const handleSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+      onSubmit(values)
+    },
+    [values, onSubmit]
+  )
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -47,13 +44,13 @@ const ResetPassword: React.FC<ResetPasswordProps> = ({ onSubmit }) => {
 
       <PasswordInput
         name="password"
-        value={formData.password}
+        value={values.password}
         onChange={handleChange}
         placeholder="Введите новый пароль"
       />
       <Input
         name="token"
-        value={formData.token}
+        value={values.token}
         onChange={handleChange}
         placeholder="Введите код из письма"
         extraClass="mt-6"

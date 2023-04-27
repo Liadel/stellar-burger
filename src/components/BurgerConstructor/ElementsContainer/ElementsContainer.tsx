@@ -1,20 +1,21 @@
 import React, { useCallback } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from '../../../services/store'
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components'
 import DraggableElement from '../DraggableElement/DraggableElement'
-
 
 import styles from './ElementsContainer.module.css'
 import {
   removeIngredient,
   updateIngredients,
-} from '../../../services/constructorItemsSlice'
+} from '../../../services/slices/constructorItemsSlice'
 import { selectConstructorItems } from '../../../services/selectors'
 import { RootState } from '../../../services/store'
 
 const ElementsContainer: React.FC = () => {
   const dispatch = useDispatch()
-  const { bun, ingredients } = useSelector((state: RootState) => selectConstructorItems(state))
+  const { bun, ingredients } = useSelector((state: RootState) =>
+    selectConstructorItems(state)
+  )
 
   const moveCard = useCallback(
     (dragIndex: number, hoverIndex: number) => {
@@ -50,13 +51,12 @@ const ElementsContainer: React.FC = () => {
               key={dragId}
               moveCard={moveCard}
               index={i}
-              ingredient={ingredient}
-            >
+              ingredient={ingredient}>
               <ConstructorElement
                 text={name}
                 price={price}
                 thumbnail={image}
-                handleClose={() => dispatch(removeIngredient(_id))}
+                handleClose={() => dispatch(removeIngredient(i))}
               />
             </DraggableElement>
           )
@@ -76,6 +76,5 @@ const ElementsContainer: React.FC = () => {
     </>
   )
 }
-
 
 export default ElementsContainer

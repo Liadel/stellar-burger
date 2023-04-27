@@ -1,16 +1,29 @@
 import { configureStore } from '@reduxjs/toolkit'
-import ingredientsSlice from './ingredientsSlice'
-import constructorSlice from './constructorItemsSlice'
-import orderSlice from './orderSlice'
-import userSlice from './userSlice'
+import {
+  TypedUseSelectorHook,
+  useDispatch as dispatchHook,
+  useSelector as selectorHook
+} from 'react-redux';
 
-export type RootState = ReturnType<typeof store.getState>;
+import rootReducer from './reduces';
+import { socketMiddleware } from './middleware/socket-middleware'
+import  { connect, disconnect, wsClose, wsConnecting, wsError, wsMessage, wsOpen} from "./actions";
+
+const wsActions = {
+  connect, disconnect, wsConnecting, wsError, wsClose, wsMessage, wsOpen
+}
+
+const wsMiddleware = socketMiddleware(wsActions)
+
+export type RootState = ReturnType<typeof rootReducer>;
+export type TDispatch = typeof store.dispatch;
 
 export const store = configureStore({
-  reducer: {
-    ingredients: ingredientsSlice.reducer,
-    constructorItems: constructorSlice.reducer,
-    order: orderSlice.reducer,
-    user: userSlice.reducer
-  },
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(wsMiddleware)
+  }
 })
+
+export const useDispatch = () => dispatchHook<TDispatch>()
+export const useSelector: TypedUseSelectorHook<RootState> = selectorHook

@@ -8,8 +8,8 @@ import {
   AUTH_LOGOUT, 
   PASSWORD_FORGOT, 
   PASSWORD_RESET
-} from '../constants';
-import { requestWrapper, setTokens, clearTokens } from '../utils';
+} from '../../constants';
+import { requestWrapper, setTokens, clearTokens } from '../../utils';
 
 export type SignInPayload = {
   name: string,
@@ -235,5 +235,15 @@ export const userSlice = createSlice({
       })
   },
 })
+
+export type UserActionTypes =
+  | ReturnType<typeof signIn>
+  | ReturnType<typeof getUser>
+  | ReturnType<typeof logIn>
+  | ReturnType<typeof updateUser>
+  | ReturnType<typeof logOut>
+  | ReturnType<typeof forgotPassword>
+  | ReturnType<typeof resetPassword>;
+
 
 export default userSlice

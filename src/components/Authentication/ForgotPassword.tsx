@@ -1,16 +1,17 @@
-import React, { useState, FC } from 'react'
+import React, { FC, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import {
   EmailInput,
   Button,
 } from '@ya.praktikum/react-developer-burger-ui-components'
 import Form from '../Form/Form'
-import { useSelector } from 'react-redux'
+import { useSelector } from '../../services/store'
 import { selectUser } from '../../services/selectors'
 import { ROUTES } from '../../constants'
+import { useForm } from '../../hooks/useForm'
 
 type ForgotPasswordProps = {
-  onSubmit(arg: ForgotPasswordState): void,
+  onSubmit(arg: ForgotPasswordState): void
 }
 
 type ForgotPasswordState = {
@@ -19,22 +20,17 @@ type ForgotPasswordState = {
 
 const ForgotPassword: FC<ForgotPasswordProps> = ({ onSubmit }) => {
   const { loading, error } = useSelector(selectUser)
-  const [formData, setFormData] = useState<ForgotPasswordState>({
-    email: '',
-  })
+  const initialState: ForgotPasswordState = { email: '' }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData({
-      ...formData,
-      [name]: value,
-    })
-  }
+  const { values, handleChange } = useForm(initialState)
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    onSubmit(formData)
-  }
+  const handleSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+      onSubmit(values)
+    },
+    [values, onSubmit]
+  )
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -42,7 +38,7 @@ const ForgotPassword: FC<ForgotPasswordProps> = ({ onSubmit }) => {
 
       <EmailInput
         name="email"
-        value={formData.email}
+        value={values.email}
         onChange={handleChange}
         placeholder="Укажите e-mail"
       />

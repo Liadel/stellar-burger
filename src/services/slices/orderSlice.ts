@@ -1,7 +1,7 @@
 
 import {createSlice, createAsyncThunk, SerializedError} from '@reduxjs/toolkit'
-import { API_URL } from '../constants';
-import { requestWrapper } from '../utils';
+import { API_URL } from '../../constants';
+import { requestWrapper } from '../../utils';
 
 export const sendOrder = createAsyncThunk(
   'order/sendOrder',
@@ -54,5 +54,7 @@ export const orderSlice = createSlice({
 })
 
 export const { clearOrder } = orderSlice.actions
+
+export type OrderActionsTypes = ReturnType<typeof clearOrder> | ReturnType<typeof sendOrder>
 
 export default orderSlice

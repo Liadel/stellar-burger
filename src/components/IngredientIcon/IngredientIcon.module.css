@@ -1,0 +1,39 @@
+.figure {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  /* margin-left: -16px; */
+  box-sizing: border-box;
+  position: relative;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: linear-gradient(63.18deg,#801AB3, #4C4CFF) content-box,
+    linear-gradient(63.18deg,#801AB3, #4C4CFF) border-box;
+  /* background: linear-gradient(63.18deg, #801AB3 0%, #4C4CFF 100%); */
+  overflow: hidden
+}
+.icon {
+  position: absolute;
+  height: 62px;
+  max-width: 112px;
+  background: #131316;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.overflow figcaption {
+  position: relative;
+}
+
+.overflow .icon {
+  opacity: .6
+}
+
+
+
+
+

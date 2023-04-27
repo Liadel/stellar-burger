@@ -1,8 +1,8 @@
 
 import {createSlice, createAsyncThunk, SerializedError} from '@reduxjs/toolkit'
-import { API_URL } from '../constants';
-import { Ingredient } from '../types/IngredienTypes';
-import { requestWrapper } from '../utils';
+import { API_URL } from '../../constants';
+import { Ingredient } from '../../types/IngredientTypes';
+import { requestWrapper } from '../../utils';
 
 
 export const fetchIngredients = createAsyncThunk(
@@ -48,6 +48,8 @@ export const ingredientsSlice = createSlice({
       });
   },
 })
+
+export type IngredientsActionsTypes = ReturnType<typeof fetchIngredients>
 
 
 export default ingredientsSlice

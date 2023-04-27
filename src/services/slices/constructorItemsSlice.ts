@@ -1,6 +1,6 @@
 
 import { createSlice } from '@reduxjs/toolkit'
-import { Ingredient } from '../types/IngredienTypes'
+import { Ingredient } from '../../types/IngredientTypes'
 
 type DraggableIngredient = Ingredient & {dragId: string}
 
@@ -25,16 +25,25 @@ export const constructorItemsSlice = createSlice({
         state.ingredients = [...state.ingredients, payload]
       }
     },
-    removeIngredient: (state, {payload: id}) => {
-      state.ingredients = state.ingredients.filter(ingredient => ingredient._id !== id)
+    removeIngredient: (state, {payload: index}) => {
+      state.ingredients.splice(index, 1)
     },
     updateIngredients: (state, {payload}) => {
       state.ingredients = payload
+    },
+    clearConstructor: () => {
+      return initialState
     }
   },
   
 })
 
-export const { addIngredient, removeIngredient, updateIngredients } = constructorItemsSlice.actions
+export const { addIngredient, removeIngredient, updateIngredients, clearConstructor } = constructorItemsSlice.actions
+
+export type ConstructorActionsTypes = 
+  | ReturnType<typeof addIngredient> 
+  | ReturnType<typeof removeIngredient>
+  | ReturnType<typeof updateIngredients>
+  | ReturnType<typeof clearConstructor>
 
 export default constructorItemsSlice

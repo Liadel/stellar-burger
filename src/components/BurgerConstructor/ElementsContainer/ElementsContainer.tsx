@@ -45,7 +45,7 @@ const ElementsContainer: React.FC = () => {
       )}
       <ul className={styles.scroll}>
         {ingredients.map((ingredient, i) => {
-          const { _id, name, price, image, dragId } = ingredient
+          const { name, price, image, dragId } = ingredient
           return (
             <DraggableElement
               key={dragId}

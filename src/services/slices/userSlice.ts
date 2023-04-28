@@ -98,7 +98,7 @@ export type User = {
   email: string,
 }
 
-type UserState = {
+export type UserState = {
   user: User,
   forgotPasswordEmailSend: boolean,
   resetPasswordSuccessful: boolean,

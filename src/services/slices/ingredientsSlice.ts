@@ -13,7 +13,7 @@ export const fetchIngredients = createAsyncThunk(
   }
 );
 
-type IngredientsState = {
+export type IngredientsState = {
   items: Ingredient[];
   loading: boolean;
   error: SerializedError | null;

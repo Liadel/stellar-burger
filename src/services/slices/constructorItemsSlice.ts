@@ -4,7 +4,7 @@ import { Ingredient } from '../../types/IngredientTypes'
 
 type DraggableIngredient = Ingredient & {dragId: string}
 
-type constructorItemsState = {
+export type constructorItemsState = {
   ingredients: DraggableIngredient[],
   bun: Ingredient | null
 }

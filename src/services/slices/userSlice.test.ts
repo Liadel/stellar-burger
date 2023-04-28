@@ -1,6 +1,5 @@
-/* eslint-disable no-undef */
 import userSlice, { signIn, logIn, logOut, getUser, updateUser, UserState } from './userSlice'
-import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
+import { configureStore, EnhancedStore, PayloadAction } from '@reduxjs/toolkit'
 
 const user = {name: 'John Doe', email: 'johnDoe@email.com'}
 
@@ -26,7 +25,7 @@ describe('userSlice', () => {
 
   it('should signIn', async () => {
     await store.dispatch(
-      signIn( {...user, password: '***'} )
+      signIn( {...user, password: '***'} ) as unknown as PayloadAction<void>
     )
     const state = store.getState().user;
     expect(state.user).toEqual(user)
@@ -36,7 +35,7 @@ describe('userSlice', () => {
 
   it('should logIn', async () => {
     await store.dispatch(
-      logIn( {...user, password: '***'} )
+      logIn( {...user, password: '***'} ) as unknown as PayloadAction<void>
     )
     const state = store.getState().user;
     expect(state.user).toEqual(user)
@@ -46,7 +45,7 @@ describe('userSlice', () => {
 
   it('should get user info', async () => {
     await store.dispatch(
-      getUser()
+      getUser() as unknown as PayloadAction<void>
     )
     const state = store.getState().user;
     expect(state.user).toEqual(user)
@@ -55,7 +54,7 @@ describe('userSlice', () => {
   })
 
   it('should get logout', async () => {
-    await store.dispatch(logOut({token: '123'}))
+    await store.dispatch(logOut({token: '123'}) as unknown as PayloadAction<void>)
     const state = store.getState().user;
     expect(state.user).toEqual({
       name: '',
@@ -67,7 +66,7 @@ describe('userSlice', () => {
 
   it('should update user info', async () => {
     await store.dispatch(
-      updateUser(user)
+      updateUser(user) as unknown as PayloadAction<void>
     )
     const state = store.getState().user;
     expect(state.user).toEqual(user)

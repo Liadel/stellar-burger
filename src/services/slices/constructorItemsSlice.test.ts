@@ -25,7 +25,7 @@ const sauceIngredient = {
 
 const ingredients = [sauceIngredient, mainIngredient, sauceIngredient]
 
-describe.skip('Constructor items slice', () => {
+describe('Constructor items slice', () => {
   let store:  EnhancedStore<{ ingredients: constructorItemsState }>; 
 
   beforeEach(() => {

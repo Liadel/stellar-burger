@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import orderSlice, { sendOrder, OrderState } from './orderSlice'
 import { configureStore, EnhancedStore, PayloadAction } from '@reduxjs/toolkit'
 

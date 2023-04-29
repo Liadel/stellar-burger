@@ -36,6 +36,4 @@ describe('wsReducer', () => {
     expect(state.total).toEqual(total);
     expect(state.totalToday).toEqual(totalToday);
   });
-
-
 });

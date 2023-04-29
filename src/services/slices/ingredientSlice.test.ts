@@ -18,7 +18,6 @@ describe('ingredient Slice', () => {
   afterEach(() => {
     mockFetch.mockRestore();
     jest.clearAllMocks()
-
   })
 
   it('should successfully fetch ingredients ', async () => {

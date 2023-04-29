@@ -72,5 +72,4 @@ describe('userSlice', () => {
     expect(state.user).toEqual(user)
     expect(fetch).toHaveBeenCalledTimes(1)
   })
-
 })

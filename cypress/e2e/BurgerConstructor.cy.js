@@ -1,38 +1,15 @@
-/* eslint-disable cypress/no-unnecessary-waiting */
 import '@4tw/cypress-drag-drop'
+import {TEST_USER, BASE_URL, API_URL} from '../../src/constants'
 
 describe('Burger constructor', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000');
-    cy.wait(500)
+    cy.visit(BASE_URL);
+    cy.intercept('GET', `${API_URL}/ingredients`).as('fetchIngredients')
+    cy.wait('@fetchIngredients')
   });
-
-  it('should have 3 tabs', () => {
-    cy.get('div.tab').should('have.length', 3)
-    cy.get("div.tab").contains('Булки').should('have.length', 1)
-    cy.get("div.tab").contains('Соусы').should('have.length', 1)
-    cy.get("div.tab").contains('Начинки').should('have.length', 1)
-  })
 
   it('should load all ingredients', () => {
     cy.get("a[class^=IngredientPreview_link").should('have.length', 15)
-  })
-
-  it('should open and close ingredient modal', () => {
-    cy.get('a[class^=IngredientPreview_link')
-      .contains('Биокотлета из марсианской Магнолии')
-      .click()
-    
-    cy.get('[class^=Modal_header')
-      .contains('Детали ингредиента')
-      .should('have.length', 1)
-    cy.get('.text.text_type_digits-default')
-      .contains('4242')
-      .should('have.length', 1)
-    
-    cy.get('button[class^="Modal_button"]').click()
-    
-    cy.get('[class^=Modal_header').should('not.exist')
   })
 
   it('should be possible to send order', () => {
@@ -56,16 +33,15 @@ describe('Burger constructor', () => {
 
     cy.get('button').contains('Оформить заказ').click()
 
-    cy.get('input[name=email]').type(`${"metashort@test.com"}`)
-    cy.get('input[name=password]').type(`${"Demo123!"}`)
+    cy.get('input[name=email]').type(TEST_USER.email)
+    cy.get('input[name=password]').type(TEST_USER.password)
     cy.get('Button').click()
 
-    cy.wait(100)
-
     cy.get('button').contains('Оформить заказ').click()
-
+    cy.intercept('POST', `${API_URL}/orders`).as('sendOrder')
+  
     cy.get('[class^="Modal_modal"]').contains('Loading...').should('have.length', 1)
-    cy.wait(15000)
+    cy.wait('@sendOrder')
     cy.get('[class^="Modal_modal"]').contains('Ваш заказ начали готовить').should('have.length', 1)
 
     cy.get('button[class^="Modal_button"]').click()

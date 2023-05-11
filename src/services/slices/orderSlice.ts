@@ -11,7 +11,7 @@ export const sendOrder = createAsyncThunk(
   }
 );
 
-type OrderState = {
+export type OrderState = {
   number: number | null,
   name: string,
   loading: boolean,

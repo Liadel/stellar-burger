@@ -4,6 +4,13 @@ export const INGREDIENT_TYPES = {
   main: 'Начинки'
 };
 
+export const BASE_URL = 'http://localhost:3000'
+
+export const TEST_USER = {
+  email: 'metashort@test.com',
+  password: 'Demo123!'
+}
+
 export const API_URL = 'https://norma.nomoreparties.space/api';
 
 export const AUTH_LOGIN = '/auth/login';

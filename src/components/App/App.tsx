@@ -58,10 +58,7 @@ const App = () => {
     const handleModalClose = () => {
       navigate(-1)
     }
-    const handlePageClose = (route: string) => {
-      navigate(route)
-    }
-
+    
     return (
       <>
         <AppHeader />

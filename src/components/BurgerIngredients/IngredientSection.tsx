@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { forwardRef, memo, RefObject } from 'react'
 
 import classnames from 'classnames'

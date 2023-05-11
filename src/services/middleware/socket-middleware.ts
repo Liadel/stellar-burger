@@ -1,8 +1,7 @@
 import { ActionCreatorWithoutPayload, ActionCreatorWithPayload } from "@reduxjs/toolkit"
 import { Middleware } from 'redux';
-import { RootState, useDispatch } from '../store';
+import { RootState } from '../store';
 import { TwsMessage } from "../../types/Order";
-import { getUser } from "../slices/userSlice";
 
 export type TwsActionTypes = {
   connect: ActionCreatorWithPayload<string>,
